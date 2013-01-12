@@ -1,0 +1,5 @@
+dnspython==1.10.0
+pyasn1==0.1.6
+pyserial==2.6
+sleekxmpp==1.1.11
+wsgiref==0.1.2
