@@ -11,9 +11,13 @@ class Device(ndb.Model):
     id = ndb.ComputedProperty( lambda self: self.key.id() if self.key else None )
 
     @classmethod
-    def from_jid(cls, jid):
-        return cls.query( cls.jid == jid, 
-                cls.owner == users.get_current_user()).get()
+    def from_jid(cls, jid, current_user=True):
+        if current_user:
+            q = cls.query( cls.jid == jid, 
+                cls.owner == users.get_current_user() )
+        else:
+            q = cls.query( cls.jid == jid )
+        return q.get()
     
     @classmethod
     def all(cls,limit=20,offset=None):

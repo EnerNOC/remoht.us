@@ -39,9 +39,29 @@ var remoht = {
 		// TODO show spinner
 		$.ajax('/device/'+device_id+"/relay/", {
 			success : function(data,stat,xhr) { 
-				// wait for the callback over the channel
+				remoht.show_relays(device_id, data.relays)
 			}
 		})
+	},
+
+	show_relays: function(device_id, relays) {
+		var target_list = $('#relay_list').text('') // clear the existing content
+
+		for( key in relays ) {
+			
+			var relay_button = app.n('a', {
+					href : '/device/'+device_id+'/relay/'+key,
+					'class' : 'btn' }, 
+				key )
+
+			state = relays[key]
+			relay_button.addClass( state == 0 ? 'btn-success' : 'btn-warn' )
+
+			relay_button.bind( 'click',
+					remoht.toggle_relay.partial(device_id, key) )
+
+			target_list.append(relay_button)
+		}
 	},
 
 	toggle_relay : function(device_id, relay, e) {
@@ -66,23 +86,7 @@ var remoht = {
 
 		// response from get_relays ajax request above
 		get_relays : function(params) {
-			var target_list = $('#relay_list').text('') // clear the existing content
-
-			for( key in params.relays ) {
-				
-				var relay_button = app.n('a', {
-					href : '/device/'+params.id+'/relay/'+key,
-					'class' : 'btn'}, 
-					"Relay " + key )
-
-				state = params.relays[key]
-				relay_button.addClass( state == 0 ? 'btn-success' : 'btn-warn' )
-
-				relay_button.bind( 'click',
-						remoht.get_relays.partial( params.device_id, key ) )
-
-				target_list.append(relay_button)
-			}
+			remoht.show_relays(params.device_id, params.relays)
 			// TODO hide spinner
 		},
 
@@ -109,8 +113,11 @@ var remoht = {
 
 					onmessage : function(msg) {
 						console.debug("Channel message", msg)
-						data = JSON.parse(msg.data)
-						remoht.channel_commands[data.command](data.data)
+						try {
+							data = JSON.parse(msg.data)
+							remoht.channel_commands[data.cmd](data.data)
+						}
+						catch(e) { console.warn("Channel onmessage error", e) }
 					},
 
 					onerror : function(err) {

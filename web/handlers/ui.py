@@ -7,7 +7,7 @@ from . import BaseHandler
 import config
 import model
 
-base_jid = "rpc@rehmote.appspotchat.com"
+#base_jid = "rpc@rehmote.appspotchat.com"
 
 class RootHandler(BaseHandler):
     def get(self):
@@ -65,6 +65,7 @@ class RelayHandler(BaseHandler):
         user = users.get_current_user()
         if not user: return self.unauthorized()
 
+        logging.info("Device ID: %d", int(device_id))
         device = model.Device.get_by_id(int(device_id))
         if device is None: return self.notfound()
         
@@ -75,8 +76,9 @@ class RelayHandler(BaseHandler):
         resource = device.get_available_resource()
         if resource != None: to_jid = '%s/%s' % (to_jid,resource)
 
-        from_jid = "%s/user-%s" % (base_jid, user.user_id())
-        xmpp.send_message(to_jid, json.dumps(msg), from_jid=from_jid)
+#        from_jid = "%s/user-%s" % (base_jid, user.user_id())
+        xmpp.send_message(to_jid, json.dumps(msg))#, from_jid=from_jid)
+        self.render_json({"msg":"OK","relays":device.relays})
 
 
     def post(self, device_id, relay):
@@ -95,5 +97,5 @@ class RelayHandler(BaseHandler):
         resource = device.get_available_resource()
         if resource != None: to_jid = '%s/%s' % (to_jid,resource)
         
-        from_jid = "%s/user-%s" % (base_jid, user.user_id())
-        xmpp.send_message( to_jid, json.dumps(msg), from_jid=from_jid)
+#        from_jid = "%s/user-%s" % (base_jid, user.user_id())
+        xmpp.send_message( to_jid, json.dumps(msg))#, from_jid=from_jid)

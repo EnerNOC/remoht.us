@@ -8,8 +8,8 @@ from google.appengine.api import xmpp, channel
 
 class ChatHandler(webapp2.RequestHandler):
     def post(self):
+        logging.info('message! %s', self.request.POST)
         message = xmpp.Message(self.request.POST)
-        logging.info('message! %s', message)
 
         try:
             parsed = json.loads(message.body)
@@ -18,27 +18,37 @@ class ChatHandler(webapp2.RequestHandler):
             logging.warn("Error parsing message %s", message.body)
             return
 
+        from_jid, resource = message.sender.split('/')
+        device = model.Device.from_jid(from_jid, current_user=False)
+        if device == None: 
+            logging.debug( "Message from unknown device %s", from_jid )    
+            return
+
         cmd = parsed['cmd']
 
-        if cmd == 'get_relay_result':
-            jid, resource = message.sender.split('/')
-            device = model.Device.from_jid(jid)
+        if cmd == 'get_relays':
 
-            new_relays = parsed['relays']
+            new_relays = parsed['data']['relays']
 
             if device.relays is None: device.relays = {}
 
-            for relay,state in new_relays:
+            for relay,state in new_relays.iteritems():
                 device.relays[relay] = state
 
-            logging.debug("Updated relays for %s : %s", jid, new_relays)
+            logging.debug("Updated relays for %s : %s", from_jid, new_relays)
             device.put()
 
             # pass the message on to the web UI user
-            to_jid, to_resource = message.to.split('/')
-            if to_resource.find('user-') == 0:
-                channel_id = to_resource.split('-')
-            channel.send_message(channel_id, message.body)
+            channel_id = device.owner.user_id()            
+            channel.send_message( channel_id, 
+                    json.dumps({
+                        "cmd" : cmd,
+                        "data": {
+                            "device_id": device.id,
+                            "relays" : new_relays
+                            }
+                        } )
+                    )
 
         else: 
             logging.warn("Unknown command: %s", cmd)
@@ -47,35 +57,31 @@ class ChatHandler(webapp2.RequestHandler):
 class PresenceHandler(webapp2.RequestHandler):
     def post(self,operation):
         logging.info('Presence! %s', self.request.POST)
-        sender, resource = self.request.get('from').split('/')
+        from_jid, resource = self.request.get('from').split('/')
         
-        device = model.Device.from_jid(sender)
+        device = model.Device.from_jid(from_jid,current_user=False)
 
         if device == None: 
-            logging.debug( "Presence from unknown device %s", sender )    
+            logging.debug( "Presence from unknown device %s", from_jid )    
             return
 
         if operation in ('available', 'unavailable'):
             device.resources[resource] = operation
             device.put()
 
-            to_jid = self.request.get('to')
-            if '/' in to_jid:
-                # pass the presence update to the web UI user
-                to_jid, to_resource = to_jid.split('/')
-                if to_resource.find('user-') == 0:
-                    channel_id = to_resource.split('-')
-
-                    msg = { "cmd" : "presence",
-                            "params" : {
-                                "jid" : sender,
-                                "resource" : resource,
-                                "status" : operation } 
-                            }
-                    channel.send_message(channel_id, json.dumps(msg) )
+            # attempt to send presence down to the owner.  If 
+            # the owner is not online, no error so no problem
+            channel_id = device.owner.user_id()
+            msg = { "cmd" : "presence",
+                    "params" : {
+                        "jid" : from_jid,
+                        "resource" : resource,
+                        "status" : operation } 
+                    }
+            channel.send_message(channel_id, json.dumps(msg) )
 
         elif operation == 'probe':
-            xmpp.send_presence( sender, 
+            xmpp.send_presence( from_jid, 
                     status="available", 
                     presence_show=self.request.get('show'))
             
@@ -84,10 +90,10 @@ class PresenceHandler(webapp2.RequestHandler):
 class SubscriptionHandler(webapp2.RequestHandler):
     def post(self,operation):
         logging.info("Subscribe! %s", self.request.POST)
-        sender = self.request.get('from').split('/')[0]
+        from_jid = self.request.get('from').split('/')[0]
 
         if operation == 'subscribe':
-            xmpp.send_presence(sender, status="available")
+            xmpp.send_presence(from_jid, status="available")
             pass
 
         elif operation == 'subscribed':
