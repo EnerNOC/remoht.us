@@ -1,0 +1,14 @@
+.spinner { 
+	background: transparent url('/static/img/spinner.gif') no-repeat center center;
+	display: inline-block;
+	vertical-align: middle;
+	width: 18px;
+	height: 18px;
+}
+
+.navbar a.brand {
+	font-family:Futura,Moderna,Helvetica,sans-serif;
+  color:#eee;
+  font-weight:normal;
+  font-size:18px;
+}

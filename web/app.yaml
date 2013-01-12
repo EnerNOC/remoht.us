@@ -1,0 +1,51 @@
+application: remohte
+version: test
+#version: prod
+runtime: python27
+api_version: 1
+threadsafe: true
+#default_expiration: "4d 5h"
+
+libraries:
+- name: django
+  version: latest
+- name: jinja2
+  version: latest
+- name: webapp2
+  version: latest
+- name: webob
+  version: latest
+- name: yaml
+  version: latest
+
+inbound_services:
+- channel_presence
+- xmpp_message
+- xmpp_presence
+- xmpp_subscribe
+- xmpp_error
+
+handlers:
+- url: /static
+  static_dir: static
+
+- url: .*
+  script: main.app
+
+
+skip_files: |
+ ^(.*/)?(
+ (bin)|
+ (test)|
+ (lib/python2\.7)|
+ (external)|
+ (screenshots)|
+ (print)|
+ (.*\.yaml)|
+ (.*\.db)|
+ (.*\.sh)|
+ (.*~)|
+ (.*\.py[co])|
+ (\..*)|
+ (.*\.md)
+ )$

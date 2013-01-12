@@ -1,0 +1,58 @@
+{% extends "_base.html" %}
+
+{% block main %}
+<div class='row'>
+
+	<div class='span4'>
+		<div class='well'>
+			<ul class="nav nav-list" id='device_list'>
+				<li class="nav-header">Devices</li>
+			</ul>
+		</div>
+
+		<div class='well'>
+			<h4>Add a JID</h4>
+			<form action='/device/' method='POST' class='form-horizontal'>
+				<div class='control-group'>
+					<label for='jid' class='control-label' style='width:20px'>JID</label>
+					<div class='controls' style='margin-left:80px'>
+						<input type='text' name='jid' placeholder='someone@gmail.com' />
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<div class='span8'>
+		<h1 id='device_header'>Device Control <small class='device_name'>(no device selected)</small></h1>
+		<h4>Relay Control</h4>
+		<div id='relay_list'>
+			<a href='/relay/1' class='btn'>Button 1</a>
+			<a href='/relay/2' class='btn'>Button 2</a>
+		</div>
+	</div>
+
+</div>
+
+{% raw %}
+<script type='text/html' id='device_line'>
+	<li>
+		<a href='/device/{{ id }}'>
+			<i class='icon-home'></i>  {{ jid }} <span class='resource muted'>/</span>
+			<span class='pull-right'>
+				<span class='label label-important'><i class='icon-remove'></i></span>
+				<span class='label label-success' style='display:none'><i class='icon-ok'></i></span>
+			</span>
+		</a>
+	</li>
+</script>
+{% endraw %}
+{% endblock %}
+
+{% block more_script %}
+<script type="text/javascript" src="/_ah/channel/jsapi"></script>
+<script type='text/javascript' src='/static/js/remoht.js'></script>
+<script type='text/javascript'>
+	$(document).ready(remoht.init);
+</script>
+{% endblock %}
