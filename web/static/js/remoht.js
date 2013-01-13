@@ -1,5 +1,9 @@
 var remoht = {
 	init : function() {
+		$(document)
+	   .ajaxStart( function(e) { $('.spinner').fadeIn() })
+		 .ajaxStop(  function(e) { $('.spinner').fadeOut() })
+
 		remoht.get_devices()
 		remoht.open_channel()
 		remoht.get_resources()
@@ -18,7 +22,6 @@ var remoht = {
 				remoht.resources = data.resources
 				// clear list
 				$('#resource_list li').each( function(i,item) {
-					console.debug(i,item)
 					if (i == 0) return
 					$(item).remove() // clear list except for header
 				})
@@ -32,6 +35,8 @@ var remoht = {
 
 	add_resource : function(resource,presence) {
 		var element = ich.resource_line({resource:resource,presence:presence})
+					
+		remoht.toggle_presence(element, presence)
 		
 		$('#resource_list').append(element)
 
@@ -41,7 +46,7 @@ var remoht = {
 				type : "POST",
 				data : {resource:resource},
 				success : function(data,stat,xhr) {
-					console.debug("Created device!")
+					console.debug("Created device!", data.device)
 					// TODO ensure it doesn't already exist.
 					remoht.add_device_to_list( data.device )
 				}
@@ -62,10 +67,7 @@ var remoht = {
 	add_device_to_list : function(device) {
 		var element = ich.device_line(device)
 
-		if ( device.presence == 'available' ) {
-			element.find('.label-important').toggle()
-			element.find('.label-ok').toggle()
-		}
+		remoht.toggle_presence(element, device.presence)
 
 		$('#device_list').append(element)
 
@@ -74,6 +76,17 @@ var remoht = {
 			$('#device_header .device_name').text(device.jid+'/'+device.resource)
 			remoht.get_relays(device.id)
 		})
+	},
+
+	toggle_presence : function(elem,presence) {
+		if ( presence == 'available' ) {
+			elem.find('.label-important').hide()
+			elem.find('.label-success').show()
+		}
+		else {
+			elem.find('.label-important').show()
+			elem.find('.label-success').hide()
+		}
 	},
 	
 	get_relays : function(device_id) {
@@ -96,7 +109,7 @@ var remoht = {
 				key )
 
 			state = relays[key]
-			relay_button.addClass( state == 0 ? 'btn-success' : 'btn-warn' )
+			relay_button.addClass( state == 0 ? 'btn-danger' : 'btn-success' )
 
 			relay_button.bind( 'click',
 					remoht.toggle_relay.partial(device_id, key) )
@@ -124,8 +137,17 @@ var remoht = {
 		presence : function(params) {
 			console.debug("Presence!", params)
 			if ( remoht.resources[params.resource] == null )
-				remoht.add_resource( params.resource, params.status )
-			remoht.resources[params.resource] = params.status
+				remoht.add_resource( params.resource, params.presence )
+			remoht.resources[params.resource] = params.presence
+
+			// update device & resources list
+			$('#resource_list a').each(function(i,item) {
+				item = $(item)
+				if ( item.find('.resource').text() == params.resource ) {
+					remoht.toggle_presence(item, params.presence)
+					return // TODO break from 'each' loop
+				}
+			})
 		},
 
 		// response from get_relays ajax request above

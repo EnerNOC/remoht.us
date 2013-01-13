@@ -96,7 +96,7 @@ class PresenceHandler(webapp2.RequestHandler):
                 "data" : {
                     "jid" : from_jid,
                     "resource" : resource,
-                    "status" : operation } 
+                    "presence" : operation } 
                 }
         channel.send_message(channel_id, json.dumps(msg) )
 
