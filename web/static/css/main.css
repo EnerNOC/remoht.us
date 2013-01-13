@@ -2,8 +2,8 @@
 	background: transparent url('/static/img/spinner.gif') no-repeat center center;
 	display: inline-block;
 	vertical-align: middle;
-	width: 18px;
-	height: 18px;
+	width: 26px;
+	height: 26px;
 }
 
 .navbar a.brand {
