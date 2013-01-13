@@ -11,15 +11,10 @@
 		</div>
 
 		<div class='well'>
-			<h4>Add a JID</h4>
-			<form action='/device/' method='POST' class='form-horizontal'>
-				<div class='control-group'>
-					<label for='jid' class='control-label' style='width:20px'>JID</label>
-					<div class='controls' style='margin-left:80px'>
-						<input type='text' name='jid' placeholder='someone@gmail.com' />
-					</div>
-				</div>
-			</form>
+			<ul class="nav nav-list" id='resource_list'>
+				<li class="nav-header">Add a Device</li>
+			</ul>
+			<a href='/resources/' id='resources-refresh'>Refresh</a>
 		</div>
 	</div>
 
@@ -35,14 +30,22 @@
 </div>
 
 {% raw %}
-<script type='text/html' id='device_line'>
+<script type='text/html' id='resource_line'>
 	<li>
-		<a href='/device/{{ id }}'>
-			<i class='icon-home'></i>  {{ jid }} <span class='resource muted'>/</span>
+		<a href='/device/'>{{ resource }}
 			<span class='pull-right'>
 				<span class='label label-important'><i class='icon-remove'></i></span>
 				<span class='label label-success' style='display:none'><i class='icon-ok'></i></span>
 			</span>
+		</a>
+	</li>
+</script>
+<script type='text/html' id='device_line'>
+	<li>
+		<a href='/device/{{ id }}'>
+			<i class='icon-home'></i> 
+			<span class='resource'>{{ resource }}</span> 
+			<span class='status muted'>{{ presence }}</span>
 		</a>
 	</li>
 </script>

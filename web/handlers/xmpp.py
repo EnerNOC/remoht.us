@@ -19,9 +19,9 @@ class ChatHandler(webapp2.RequestHandler):
             return
 
         from_jid, resource = message.sender.split('/')
-        device = model.Device.from_jid(from_jid, current_user=False)
+        device = model.Device.from_resource(resource, from_jid)
         if device == None: 
-            logging.debug( "Message from unknown device %s", from_jid )    
+            logging.debug( "Message from unknown device %s/%s", from_jid, resource )    
             return
 
         cmd = parsed['cmd']
@@ -58,33 +58,47 @@ class PresenceHandler(webapp2.RequestHandler):
     def post(self,operation):
         logging.info('Presence! %s', self.request.POST)
         from_jid, resource = self.request.get('from').split('/')
-        
-        device = model.Device.from_jid(from_jid,current_user=False)
 
-        if device == None: 
-            logging.debug( "Presence from unknown device %s", from_jid )    
+        xmpp_user = model.XMPPUser.get_by_jid( from_jid )
+
+        if xmpp_user is None:
+            logging.debug( "Presence from unknown user %s", from_jid )
             return
 
-        if operation in ('available', 'unavailable'):
-            device.resources[resource] = operation
+        if operation == 'probe':
+            xmpp.send_presence( from_jid, 
+                    status="ready for action!", 
+                    presence_show="available")
+
+            return
+
+        # else operation is 'available' or 'unavailable'
+        if not resource: return
+
+        xmpp_user.resources[resource] = operation
+        xmpp_user.put()
+        
+        # see if we have a device for this resource:
+        device = model.Device.from_resource(resource, from_jid)
+
+        if device != None and device.presence != operation:
+            device.presence = operation
             device.put()
 
-            # attempt to send presence down to the owner.  If 
-            # the owner is not online, no error so no problem
-            channel_id = device.owner.user_id()
-            msg = { "cmd" : "presence",
-                    "params" : {
-                        "jid" : from_jid,
-                        "resource" : resource,
-                        "status" : operation } 
-                    }
-            channel.send_message(channel_id, json.dumps(msg) )
+        else:
+            logging.debug( "Presence from unknown device %s/%s", from_jid, resource )
 
-        elif operation == 'probe':
-            xmpp.send_presence( from_jid, 
-                    status="available", 
-                    presence_show=self.request.get('show'))
-            
+        # attempt to send presence down to the owner.  If 
+        # the owner is not online, no error so no problem
+        channel_id = xmpp_user.user.user_id()
+
+        msg = { "cmd" : "presence",
+                "data" : {
+                    "jid" : from_jid,
+                    "resource" : resource,
+                    "status" : operation } 
+                }
+        channel.send_message(channel_id, json.dumps(msg) )
 
 
 class SubscriptionHandler(webapp2.RequestHandler):

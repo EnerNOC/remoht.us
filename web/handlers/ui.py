@@ -16,7 +16,6 @@ class RootHandler(BaseHandler):
           self.redirect(users.create_login_url(self.request.uri))
           return
 
-#        devices = model.Device.all()
         self.render('index')
 
 
@@ -27,34 +26,58 @@ class DeviceHandler(BaseHandler):
             devices = model.Device.all()
 
         else:
-            devices = [model.Device.get_by_id(int(_id))]
+            device = model.Device.get_by_id(int(_id))
+            if device.owner != users.get_current_user():
+                return self.unauthorized()
 
-        if not len(devices):
-            return self.notfound()
+            devices = [device]
 
         self.render_json( {"msg":"OK","devices":devices} )
 
 
     def post(self):
-        jid = self.request.get('jid',None)
-        xmpp.send_invite(jid)
-        xmpp.get_presence(jid, get_show=True)
+        resource = self.request.get('resource')
 
-        result = model.Device.from_jid(jid)
+        user = users.get_current_user()
+        jid = user.email()
+        full_jid = '%s/%s' % (jid, resource)
+        online, avail = xmpp.get_presence(full_jid, get_show=True)
+
+        device = model.Device.from_resource(resource)
 
         msg = "OK"
-        if result != None:
+        if device != None:
             msg = "JID %s is already added" % jid
+            self.response.status = 304
 
         else:
-            logging.debug("Added JID %s", jid)
-            model.Device(jid=jid).put()
+            logging.debug("Adding device %s", full_jid)
+            device = model.Device( 
+                    owner = user,
+                    jid = jid,
+                    resource = resource,
+                    presence = avail )
+            device.put()
 
-        if self.is_ajax():
-            self.render_json({'msg':msg})
-            return
+        self.render_json({'msg':msg,"device":device})
 
-        self.redirect('/')
+
+class ResourcesHandler(BaseHandler):
+    def get(self):
+        user = users.get_current_user()
+        if not user:
+            return self.unauthorized()
+
+        xmpp_user = model.XMPPUser.get_current_user()
+
+        jid = user.email()
+        if xmpp_user is None:
+            xmpp_user = model.XMPPUser.new()
+            xmpp_user.put()
+            xmpp.send_invite(jid)
+
+        xmpp.send_presence(jid, presence_type=xmpp.PRESENCE_TYPE_PROBE)
+        self.render_json({"msg":"OK", "resources":xmpp_user.resources})
 
 
 class RelayHandler(BaseHandler):
@@ -72,12 +95,7 @@ class RelayHandler(BaseHandler):
         msg = { "op" : "get_relay",
                 "relay" : relay }
 
-        to_jid = device.jid
-        resource = device.get_available_resource()
-        if resource != None: to_jid = '%s/%s' % (to_jid,resource)
-
-#        from_jid = "%s/user-%s" % (base_jid, user.user_id())
-        xmpp.send_message(to_jid, json.dumps(msg))#, from_jid=from_jid)
+        xmpp.send_message(device.full_jid, json.dumps(msg))
         self.render_json({"msg":"OK","relays":device.relays})
 
 

@@ -35,11 +35,11 @@ ROUTES = [
     ('/token/',                channel.TokenRequestHandler),
 
     ('/$',                        ui.RootHandler),
+    ('/resources/$',              ui.ResourcesHandler),
     ('/device/(\d+)/relay/(.*)$', ui.RelayHandler),
     ('/device/',                  ui.DeviceHandler),
 
     ('/logout',          handlers.LogoutHandler),
-#    ('/(.*)',            handlers.CatchAllHandler),
     ]
 
 

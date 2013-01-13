@@ -4,7 +4,7 @@ BASE_URL = 'http://localhost:8080/_ah/xmpp/'
 CHAT_URL = BASE_URL + 'message/chat/'
 
 TO_JID = 'rehmote@appspot.com'
-FROM_JID = 'tmnichols@gmail.com/test'
+FROM_JID = 'test@example.com/test_1'
 
 def get_relay_response():
     response = {
@@ -25,7 +25,6 @@ def get_relay_response():
                 ('stanza','')
                 ))
             )
-
 
 
 def main():

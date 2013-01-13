@@ -2,39 +2,80 @@ var remoht = {
 	init : function() {
 		remoht.get_devices()
 		remoht.open_channel()
+		remoht.get_resources()
+
+		$('#resources-refresh').bind('click',function(e) {
+			e.preventDefault()
+			remoht.get_resources()
+		})
+	},
+
+	resources : {},
+
+	get_resources : function() {
+		$.ajax('/resources/', {
+			success : function(data,stat,xhr) {
+				remoht.resources = data.resources
+				// clear list
+				$('#resource_list li').each( function(i,item) {
+					console.debug(i,item)
+					if (i == 0) return
+					$(item).remove() // clear list except for header
+				})
+				// iterating over a dict of resource:presence items
+				for ( i in data.resources ) {
+					remoht.add_resource(i, data.resources[i] )
+				}
+			}
+		})
+	},
+
+	add_resource : function(resource,presence) {
+		var element = ich.resource_line({resource:resource,presence:presence})
+		
+		$('#resource_list').append(element)
+
+		element.bind('click', function(e) {
+			e.preventDefault()
+			$.ajax(e.target.href, {
+				type : "POST",
+				data : {resource:resource},
+				success : function(data,stat,xhr) {
+					console.debug("Created device!")
+					// TODO ensure it doesn't already exist.
+					remoht.add_device_to_list( data.device )
+				}
+			})
+		})
 	},
 
 	get_devices : function() {
 		$.ajax('/device/', {
 			success: function(data,stat,xhr) {
 				for( i in data.devices ) {
-					var device = data.devices[i]
-					var element = ich.device_line(device)
-
-					var resource = ''
-					for ( resource in device.resources ) {
-						var presence = device.resources[resource]
-						if ( presence == 'available' ) {
-							console.debug("Found available resource: ", resource)
-							element.find('.label-important').toggle()
-							element.find('.label-ok').toggle()
-							element.find('.resource').text(resource)
-							break
-						}
-					}
-
-					$('#device_list').append(element)
-
-					element.bind('click',function(e) {
-						e.preventDefault()
-						$('#device_header .device_name').text(device.jid+'/'+resource)
-						remoht.get_relays(device.id)
-					})
+					remoht.add_device_to_list( data.devices[i] )
 				}
 			}
 		})
 	},
 
+	add_device_to_list : function(device) {
+		var element = ich.device_line(device)
+
+		if ( device.presence == 'available' ) {
+			element.find('.label-important').toggle()
+			element.find('.label-ok').toggle()
+		}
+
+		$('#device_list').append(element)
+
+		element.bind('click',function(e) {
+			e.preventDefault()
+			$('#device_header .device_name').text(device.jid+'/'+device.resource)
+			remoht.get_relays(device.id)
+		})
+	},
+	
 	get_relays : function(device_id) {
 		// TODO show spinner
 		$.ajax('/device/'+device_id+"/relay/", {
@@ -68,8 +109,8 @@ var remoht = {
 		// TODO show spinner
 		$.ajax('/device'+device_id+"/relay/"+relay, {
 			type : "POST",
+			dataType : 'json',
 			data : { state : 1 }, // FIXME
-			dataType : 'JSON',
 			success : function(data,stat,xhr) {
 				// wait for callback over socket
 			}
@@ -79,9 +120,12 @@ var remoht = {
 	// These commands should correspond to the XMPP commands sent from 
 	// a device - see handlers/xmpp.ChatHandler#post()
 	channel_commands : {
+
 		presence : function(params) {
 			console.debug("Presence!", params)
-
+			if ( remoht.resources[params.resource] == null )
+				remoht.add_resource( params.resource, params.status )
+			remoht.resources[params.resource] = params.status
 		},
 
 		// response from get_relays ajax request above
