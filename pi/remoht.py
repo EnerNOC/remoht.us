@@ -1,10 +1,12 @@
 import sys
 import logging
 import signal
-import json
 import functools
-import sleekxmpp
+import threading
+import json
 from argparse import ArgumentParser
+
+import arduino, xmpp
 
 
 # Defaults:
@@ -15,110 +17,105 @@ PORT = 5222
 REMOHT_SERVICE = 'xmpp@remohte.appspotchat.com'
 READING_FREQ = 30 # seconds
 
-RELAYS = {
-        "relay_1" : 1,
-        "relay_2" : 0 }
+TTY='/dev/ttyUSB0'
+BAUD=9600
 
-READINGS = {
-        "temp_c" : 34.5,
-        "light" : 255,
-        "pir" : 1 }
+CMD_RELAY = 'r'
+CMD_READING = 'd'
 
+class RemohtPi(object):
 
-def get_relays():
-    return RELAYS
+    def __init__(self, jid, pwd, domain=DOMAIN, port=PORT, tty=TTY, baud=BAUD):
+        self.op_map = {
+            "get_relays" : self.get_relays,
+            "toggle_relay" : self.toggle_relay,
+            "get_readings" : self.get_readings 
+            }
 
+        self.xmpp = xmpp.RemohtXMPP( jid, pwd, op_map=self.op_map )
+        self.connect_props = (domain,port)
 
-def toggle_relay(relay_id,val=0):
-    RELAYS[relay_id] = val
-    return {"result": val}
+        self.xmpp.add_task( READING_FREQ, self.data_collector_task, 
+                repeat=True, name='Reading collector' )
 
+        self.serial = arduino.ArduinoSerial( tty, baud )
+        self.serial.add_callback( self.serial_callback )
 
-def get_readings():
-    return READINGS
-
-
-OP_MAP = {
-        "get_relays" : get_relays,
-        "toggle_relay" : toggle_relay,
-        "get_readings" : get_readings 
-        }
+        self.exit = threading.Event()
 
 
-class RemohtXMPP(sleekxmpp.ClientXMPP):
+    def start(self):
+        self.exit.clear()
+        self.serial.start()
 
-    def __init__( self, *args, **kwargs ):
-        sleekxmpp.ClientXMPP.__init__(self, *args, **kwargs )
-
-        self.add_event_handler( "session_start", self.on_start )
-        self.add_event_handler( "message", self.on_message )
-
-
-    def on_start(self,evt):
-        self.send_presence()
-#        self.get_roster()
+        if self.xmpp.connect(self.connect_props):
+            logging.info('Running!')
+            self.xmpp.process(block=False)
+        else:
+            logging.warn("XMPP connection failure!")
 
 
-    def on_message(self,msg):
-        logging.debug("[%(from)s] << %(body)s", msg)
-        parsed = json.loads( msg['body'] )
+    def stop(self):
+        logging.info("Closing serial connection...")
+        self.serial.stop()
+        self.xmpp.disconnect( wait=False )
+        self.exit.set()
 
-        cmd = parsed.get('cmd',None)
-        result = {"msg":"OK",status:0}
-        if cmd is None:
-            result = {"msg":"Error: no 'cmd'", 'status':1}
-            msg.reply( json.dumps(result) ).send()
-            return 
 
-        op = OP_MAP.get(cmd,None)
-        if op is None:
-            result = {"msg":"Error: unknown command: %s" % cmd, 'status':1}
-            msg.reply( json.dumps(result) ).send()
-            return 
+    def serial_callback(self,data):
+        cmd = data[0]
 
-        params = parsed.get('params',None)
-        try:
-            result_data = op(**params) if params else op()
-            result['data'] = result_data
-        except Exception as ex:
-            logging.exception("Error executing op %s : %s", op, ex)
-            result["msg"] = "Unexpected error: %s" % ex
-            result["status"] = 2
+        if cmd == CMD_READING: # data, format should be ... TODO
+            pass
+        elif cmd == CMD_RELAY: # relay states, format should be r 0 1
+            cmd = "get_relays"
+            data = {
+                "relay_1" : int(data[1]),
+                "relay_2" : int(data[2]) }
+        else:
+            logging.warn("Unknown command: %s", data)
+            return
 
-        msg.reply( json.dumps(result) ).send()
+        self.send_xmpp( cmd, data )
+
         
+    def get_relays(self):
+        self.serial.send(CMD_RELAY) # get relays
 
-    def send_readings(self,readings):
-        payload = {"cmd":"readings", vals: readings}
-        self.send_message( mto = REMOHT_SERVICE,
-                          mbody = json.dumps(payload),
-                          mtype = 'chat')
-        
+
+    def toggle_relay(self,relay_id=0,val=0):
+        self.serial.send('%s %d %d' % (CMD_RELAY, relay_id, val))
+
+
+    def get_readings(self):
+        self.serial.send(CMD_READING) # data request
+
 
     def data_collector_task(self):
-        pass
+        # TODO ideally the arduino could push periodic data or 
+        # on delta rather than polling
+        self.serial.send(CMD_READING)
 
-    def start_data_collector(self):
-         self.schedule( 'Reading task',
-              READING_FREQ, scheduled_ping,
-              repeat=True )
+
+    def send_xmpp(self,cmd,data):
+        payload = {"cmd":cmd, "data": data}
+        self.xmpp.send_message( mto = REMOHT_SERVICE,
+                          mbody = json.dumps(payload),
+                          mtype = 'chat')
+
+
 
 
 def main(opts):
-    xmpp = RemohtXMPP( opts.jid, opts.passwd )
-    xmpp.start_data_collector()
+    remoht = RemohtPi( opts.jid, opts.passwd, 
+                       opts.domain, opts.port, 
+                       opts.tty, opts.baud )
 
     for s in 'SIGINT SIGHUP SIGQUIT SIGTERM'.split():
-        signal.signal(getattr(signal,s), functools.partial(shutdown,xmpp))
+        signal.signal(getattr(signal,s), lambda sig,frame: remoht.stop())
 
-    if xmpp.connect((opts.domain,opts.port)):
-        logging.info('Running!')
-        xmpp.process(block=True)
-
-
-def shutdown(xmpp,sig,frame):
-    logging.info("Quitting...")
-    xmpp.disconnect(wait=False)
+    remoht.start()
+    while not remoht.exit.is_set(): remoht.exit.wait(5)
 
 
 if __name__ == '__main__':
@@ -127,17 +124,23 @@ if __name__ == '__main__':
         format = '%(levelname)-8s %(message)s' )
 
     optp = ArgumentParser()
-    optp.add_argument("-p", "--password", dest="passwd",
+    optp.add_argument("-p", "--pass", dest="passwd",
             default=PASS, help="XMPP password")
 
     optp.add_argument("-j", "--jid", dest="jid",
             default=USER, help="XMPP JID")
 
     optp.add_argument("-D", "--domain", dest="domain",
-            default=DOMAIN,help="XMPP domain")
+            default=DOMAIN, help="XMPP domain")
 
     optp.add_argument("-P", "--port", dest="port", type=int,
-            default=PORT,help="XMPP server port")
+            default=PORT, help="XMPP server port")
+
+    optp.add_argument("-t", "--tty", dest="tty",
+            default=TTY, help="Arduino serial tty")
+
+    optp.add_argument("-b", "--baud", dest="baud", type=int,
+            default=BAUD, help="Arduino serial baud")
 
     args = optp.parse_args()
 
