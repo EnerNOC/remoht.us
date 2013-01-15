@@ -5,6 +5,16 @@ import model
 import webapp2
 from google.appengine.api import xmpp, channel
 
+# GTalk puts a hash on the end of resources.  Look for this character to 
+# remove the hash
+RESOURCE_TAG = ':'
+
+def split_jid(full_jid):
+    jid, resource = full_jid.split('/')
+    if resource.index(RESOURCE_TAG) >=0:
+        resource = resource.split(RESOURCE_TAG)[0] 
+
+    return jid, resource
 
 class ChatHandler(webapp2.RequestHandler):
     def post(self):
@@ -18,7 +28,8 @@ class ChatHandler(webapp2.RequestHandler):
             logging.warn("Error parsing message %s", message.body)
             return
 
-        from_jid, resource = message.sender.split('/')
+        from_jid, resource = split_jid(message.sender)
+
         device = model.Device.from_resource(resource, from_jid)
         if device == None: 
             logging.debug( "Message from unknown device %s/%s", from_jid, resource )    
@@ -57,7 +68,7 @@ class ChatHandler(webapp2.RequestHandler):
 class PresenceHandler(webapp2.RequestHandler):
     def post(self,operation):
         logging.info('Presence! %s', self.request.POST)
-        from_jid, resource = self.request.get('from').split('/')
+        from_jid, resource = split_jid( self.request.get('from') )
 
         xmpp_user = model.XMPPUser.get_by_jid( from_jid )
 
@@ -104,7 +115,7 @@ class PresenceHandler(webapp2.RequestHandler):
 class SubscriptionHandler(webapp2.RequestHandler):
     def post(self,operation):
         logging.info("Subscribe! %s", self.request.POST)
-        from_jid = self.request.get('from').split('/')[0]
+        from_jid = split_jid( self.request.get('from') )[0]
 
         if operation == 'subscribe':
             xmpp.send_presence(from_jid, status="available")

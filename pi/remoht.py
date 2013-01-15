@@ -10,7 +10,9 @@ import arduino, xmpp
 
 
 # Defaults:
-USER = 'tmnichols@gmail.com/pi'
+# Add a colon ':' to the end of the resource in order to make it easy to 
+# parse off the hash that Google Talk tacks on the end of JID resources
+USER = 'tmnichols@gmail.com/pi:'
 PASS = ''
 DOMAIN = 'talk.google.com'
 PORT = 5222
