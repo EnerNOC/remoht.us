@@ -1,4 +1,4 @@
-# Remoht.me
+# Remoht.us
 
 This project is a web-based interface to a home automation system based on 
 the Raspberry Pi.  It has several components outlined below:
