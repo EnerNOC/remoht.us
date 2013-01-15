@@ -1,9 +1,9 @@
 /* Arduino controller code for Remoht.us
- * 
+ * Author: Thom Nichols
  */
  
-// uncomment if your ardunino is 5V TTL:
-#define TTL_3V3 1
+// uncomment if your ardunino is 3V3 TTL:
+//#define TTL_3V3 1
 #define HEARTBEAT 1
 
 #ifdef TTL_3V3
@@ -45,6 +45,7 @@ void setup() {
 #endif
   pinMode(PIN_RELAY_1, OUTPUT);
   pinMode(PIN_RELAY_2, OUTPUT);
+  pinMode(PIN_PIR, INPUT_PULLUP);
 
   resetRelays();
   Serial.begin(9600);
@@ -130,7 +131,7 @@ float readLDR() {
 
 int readPIR() {
   pir = digitalRead(PIN_PIR);
-  pir = ( pir == HIGH ? 1 : 0 );
+  pir = ( pir == LOW ? 1 : 0 ); // 0 means motion detected
   // This is already smoothed by capacitors
   return pir;
 }
