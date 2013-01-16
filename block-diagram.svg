@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="744.09448819"
+   height="1052.3622047"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.1 r9760"
+   sodipodi:docname="New document 1">
+  <defs
+     id="defs4">
+    <marker
+       inkscape:stockid="Arrow2Send"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow2Send"
+       style="overflow:visible;">
+      <path
+         id="path3839"
+         style="font-size:12.0;fill-rule:evenodd;stroke-width:0.62500000;stroke-linejoin:round;"
+         d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.9730900,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z "
+         transform="scale(0.3) rotate(180) translate(-2.3,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Sstart"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow2Sstart"
+       style="overflow:visible">
+      <path
+         id="path3836"
+         style="font-size:12.0;fill-rule:evenodd;stroke-width:0.62500000;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.9730900,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z "
+         transform="scale(0.3) translate(-2.3,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Mend"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow2Mend"
+       style="overflow:visible;">
+      <path
+         id="path3833"
+         style="font-size:12.0;fill-rule:evenodd;stroke-width:0.62500000;stroke-linejoin:round;"
+         d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.9730900,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z "
+         transform="scale(0.6) rotate(180) translate(0,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Mstart"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow2Mstart"
+       style="overflow:visible">
+      <path
+         id="path3830"
+         style="font-size:12.0;fill-rule:evenodd;stroke-width:0.62500000;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.9730900,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z "
+         transform="scale(0.6) translate(0,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mstart"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow1Mstart"
+       style="overflow:visible">
+      <path
+         id="path3812"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1.0pt;marker-start:none"
+         transform="scale(0.4) translate(10,0)" />
+    </marker>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.90028971"
+     inkscape:cx="372.04724"
+     inkscape:cy="706.69447"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1360"
+     inkscape:window-height="800"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       ry="12.500302"
+       rx="12.500302"
+       y="307.13031"
+       x="436.74149"
+       height="264.86176"
+       width="285.05301"
+       id="rect5761"
+       style="fill:#e2d84b;fill-opacity:0.43555555;stroke:#5e5e5e;stroke-width:2.60422969;stroke-linecap:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+    <rect
+       style="fill:#4ba4e2;fill-opacity:0.43555555;stroke:#5e5e5e;stroke-width:2.60422969;stroke-linecap:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="rect5759"
+       width="349.18991"
+       height="171.03181"
+       x="99.428696"
+       y="41.080822"
+       rx="12.500302"
+       ry="12.500302" />
+    <rect
+       style="fill:#f8c84e;fill-opacity:1;fill-rule:evenodd;stroke:#5e5e5e;stroke-width:2.51963472;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="rect3753"
+       width="112.25629"
+       height="70.208977"
+       x="22.272509"
+       y="331.49808"
+       ry="11.281125"
+       rx="11.281125" />
+    <rect
+       style="fill:#e5617a;fill-opacity:1;stroke:#5e5e5e;stroke-width:2.89866185;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="rect3755"
+       width="147.2753"
+       height="90.916878"
+       x="272.72076"
+       y="91.218315"
+       ry="13.144609" />
+    <rect
+       style="fill:#1ca91c;fill-opacity:1;stroke:#5e5e5e;stroke-width:3.14212918;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="rect3757"
+       width="158.43196"
+       height="77.881058"
+       x="462.57242"
+       y="352.99411"
+       ry="12.802365"
+       rx="12.802365" />
+    <rect
+       style="fill:#204eb1;fill-opacity:1;stroke:#5e5e5e;stroke-width:2.60422969;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="rect3759"
+       width="139.58672"
+       height="77.085205"
+       x="463.23819"
+       y="475.58633"
+       ry="12.500302"
+       rx="12.500302" />
+    <text
+       xml:space="preserve"
+       style="font-size:18.75045586px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       x="31.232456"
+       y="362.81064"
+       id="text3761"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3763"
+         x="31.232456"
+         y="362.81064">Browser/</tspan><tspan
+         sodipodi:role="line"
+         x="31.232456"
+         y="386.24872"
+         id="tspan5813">HTTP UI</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:18.75045586px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       x="281.94876"
+       y="129.61369"
+       id="text3765"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3767"
+         x="281.94876"
+         y="129.61369">AppEngine</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:18.75045586px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       x="475.09586"
+       y="383.55728"
+       id="text3769"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3771"
+         x="475.09586"
+         y="383.55728">Raspberry Pi</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:18.75045586px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       x="475.00833"
+       y="501.064"
+       id="text3773"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3775"
+         x="475.00833"
+         y="501.064"
+         style="font-size:18.75045586px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;font-family:Sans;-inkscape-font-specification:Sans">Arduino + </tspan><tspan
+         sodipodi:role="line"
+         x="475.00833"
+         y="524.50208"
+         id="tspan3777"
+         style="font-size:18.75045586px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;font-family:Sans;-inkscape-font-specification:Sans">Sensors</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:14.58368683px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#1c1c1c;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       x="66.299873"
+       y="279.9982"
+       id="text3779"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3781"
+         x="66.299873"
+         y="279.9982">HTTP/ AJAX</tspan><tspan
+         sodipodi:role="line"
+         x="66.299873"
+         y="298.22781"
+         id="tspan5773">(pull)</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:14.58368683px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#1c1c1c;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       x="223.82495"
+       y="242.87633"
+       id="text3783"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3785"
+         x="223.82495"
+         y="242.87633">Channels API</tspan><tspan
+         sodipodi:role="line"
+         x="223.82495"
+         y="261.10596"
+         id="tspan5771">(push)</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:14.58368683px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#1c1c1c;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       x="439.00708"
+       y="264.45035"
+       id="text3787"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3789"
+         x="439.00708"
+         y="264.45035">XMPP (bi-directional)</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:14.58368683px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#1c1c1c;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       x="526.74683"
+       y="454.84283"
+       id="text3791"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3793"
+         x="526.74683"
+         y="454.84283">Serial (bi-directional)</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:2.60422969;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-start:url(#Arrow2Mstart)"
+       d="M 125.00055,327.97071 268.32781,187.05232"
+       id="path3795"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:2.60422945;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-start:url(#Arrow2Mstart)"
+       d="M 264.38966,172.62067 108.16879,324.13949"
+       id="path3797"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:2.60422969;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-start:url(#Arrow2Mstart);marker-end:url(#Arrow2Mend)"
+       d="m 397.62391,187.4276 71.02445,155.07004"
+       id="path3799"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:2.60422969;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-start:url(#Arrow2Sstart);marker-end:url(#Arrow2Send)"
+       d="m 508.10689,438.16918 2.82473,31.31165"
+       id="path3801"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <text
+       sodipodi:linespacing="125%"
+       id="text5763"
+       y="71.415367"
+       x="125.16959"
+       style="font-size:18.75045586px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       xml:space="preserve"><tspan
+         y="71.415367"
+         x="125.16959"
+         id="tspan5765"
+         sodipodi:role="line"
+         style="font-size:25.00060463px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:condensed;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Impact;-inkscape-font-specification:Impact Condensed">&quot;The Cloud!&quot;</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:18.75045586px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       x="484.25027"
+       y="336.82333"
+       id="text5767"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan5769"
+         x="484.25027"
+         y="336.82333">Local Area Network</tspan></text>
+    <rect
+       rx="11.281125"
+       ry="11.281125"
+       y="426.51575"
+       x="35.33744"
+       height="171.16525"
+       width="327.23376"
+       id="rect5775"
+       style="fill:#61d9e5;fill-opacity:0.46666667;fill-rule:evenodd;stroke:#5e5e5e;stroke-width:2.51963472;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+    <text
+       xml:space="preserve"
+       style="font-size:16.66707039px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Garamond;-inkscape-font-specification:Garamond Italic"
+       x="43.605804"
+       y="453.21997"
+       id="text5777"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan5799"
+         x="43.605804"
+         y="453.21997">Because all layers of this stack use &quot;push&quot; protocols, </tspan><tspan
+         sodipodi:role="line"
+         id="tspan5801"
+         x="43.605804"
+         y="474.0538">there is virtually no latency in a messages sent from</tspan><tspan
+         sodipodi:role="line"
+         id="tspan5803"
+         x="43.605804"
+         y="494.88763">the browser to the device and back.  Additionally, the </tspan><tspan
+         sodipodi:role="line"
+         id="tspan5805"
+         x="43.605804"
+         y="515.7215">use of XMPP from the Raspberry Pi allows it to make </tspan><tspan
+         sodipodi:role="line"
+         id="tspan5807"
+         x="43.605804"
+         y="536.5553">an outbound connection to AppEngine, thereby </tspan><tspan
+         sodipodi:role="line"
+         id="tspan5809"
+         x="43.605804"
+         y="557.38916">removing the need for NAT forwarding through a </tspan><tspan
+         sodipodi:role="line"
+         id="tspan5811"
+         x="43.605804"
+         y="578.22302">firewall and static IPs on the home side.</tspan></text>
+  </g>
+</svg>

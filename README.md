@@ -1,8 +1,15 @@
 # Remoht.us
 
-This project is a web-based interface to a home automation system based on 
-the Raspberry Pi.  It has several components outlined below:
+This project is a cloud-based interface to a home automation system based on 
+the Raspberry Pi.  It is a proof-of-concept written for a presentaiton at the 
+[Boston Google Developers meetup](http://www.meetup.com/gdg-boston/).  The 
+project demonstrates a number of interesting technologies including XMPP, 
+AppEngine's Channel API, and the [Raspberry Pi](http://raspberrypi.org/).
 
+Conceptual block diagram:
+![Block diagram](block-diagram.png)
+
+The components of the project are outlined below:
 
 
 ## Web
@@ -55,5 +62,16 @@ hardware peripherals.  In the first incarnation, this includes:
 * relays
 
 And this could easily be expanded to include other hardware peripherals as well. The
-Arduino acts as a "bus" and uses a simple serial protocol to translate the low-level
-hardware readings to the Raspberry Pi.
+Arduino acts as a "bus" and uses a simple serial protocol to transmit the low-level
+hardware readings to the Raspberry Pi.  The project contains a 
+[schematic diagram](arduino/remoht-arduino.fzz) that can be viewed in 
+[Fritzing](http://fritzing.org).
+
+
+
+## To Do
+
+* add interrupt-driven events to the Pi rather than polling
+* Local web UI on the Raspberry Pi
+* Local logging on the Raspberry Pi, push readings to the cloud on change-of-value 
+  rather than a polling interval
