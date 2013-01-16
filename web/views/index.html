@@ -85,7 +85,11 @@
 
 {% block more_script %}
 <script type="text/javascript" src="/_ah/channel/jsapi"></script>
+{% if debug %}
 <script type='text/javascript' src='/static/js/remoht.js'></script>
+{% else %}
+<script type='text/javascript' src='/static/js/remoht.min.js'></script>
+{% endif %}
 <script type='text/javascript'>
 	$(document).ready(remoht.init);
 </script>

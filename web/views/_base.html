@@ -9,10 +9,11 @@
 		{% if debug %}
 		<link href="/static/css/bootstrap.css" rel="stylesheet" />
 		<link href="/static/css/bootstrap-responsive.css" rel="stylesheet" />
+		<link href='/static/css/main.css' rel='stylesheet' />
 		{% else %}
 		<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css" rel="stylesheet" />
+		<link href='/static/css/main.min.css' rel='stylesheet' />
 		{% endif %}
-		<link href='/static/css/main.css' rel='stylesheet' />
    </head>
 	 <body style='padding-top:56px'>
 
@@ -64,7 +65,7 @@
 		<script type="text/javascript" src='//cdnjs.cloudflare.com/ajax/libs/backbone.js/0.9.9/backbone-min.js'></script>
 		-->
 		<script type="text/javascript" src='//cdnjs.cloudflare.com/ajax/libs/ICanHaz.js/0.10/ICanHaz.min.js'></script>
-		<script type="text/javascript" src='/static/js/app.js'></script> 
+		<script type="text/javascript" src='/static/js/app.min.js'></script> 
 		{% endif %}
 		{% block more_script %}
 		{% endblock %}
