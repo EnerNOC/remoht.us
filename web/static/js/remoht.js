@@ -42,7 +42,7 @@ var remoht = {
 
 		element.bind('click', function(e) {
 			e.preventDefault()
-			$.ajax(e.target.href, {
+			$.ajax('/device/', {
 				type : "POST",
 				data : {resource:resource},
 				success : function(data,stat,xhr) {
@@ -74,6 +74,7 @@ var remoht = {
 		element.bind('click',function(e) {
 			e.preventDefault()
 			$('#device_header .device_name').text(device.jid+'/'+device.resource)
+			remoht.current_device_id = device.id
 			remoht.get_relays(device.id)
 		})
 	},
@@ -90,7 +91,6 @@ var remoht = {
 	},
 	
 	get_relays : function(device_id) {
-		// TODO show spinner
 		$.ajax('/device/'+device_id+"/relay/", {
 			success : function(data,stat,xhr) { 
 				remoht.show_relays(device_id, data.relays)
@@ -111,19 +111,20 @@ var remoht = {
 			state = relays[key]
 			relay_button.addClass( state == 0 ? 'btn-danger' : 'btn-success' )
 
-			relay_button.bind( 'click',
-					remoht.toggle_relay.partial(device_id, key) )
+			relay_button.bind( 'click', function(e) {
+				remoht.toggle_relay(device_id, key, state)
+				e.preventDefault()
+			})
 
 			target_list.append(relay_button)
 		}
 	},
 
-	toggle_relay : function(device_id, relay, e) {
-		// TODO show spinner
-		$.ajax('/device'+device_id+"/relay/"+relay, {
+	toggle_relay : function(device_id, relay, fromState) {
+		$.ajax('/device/'+device_id+"/relay/"+relay, {
 			type : "POST",
 			dataType : 'json',
-			data : { state : 1 }, // FIXME
+			data : { state : fromState == 0 ? 1 : 0 },
 			success : function(data,stat,xhr) {
 				// wait for callback over socket
 			}
@@ -162,7 +163,15 @@ var remoht = {
 		list_data_streams : function(params) {
 		},
 
-		telemetry : function(params) {
+		readings : function(params) {
+			if ( ! remoht.current_device_id == params.device_id ) {
+				console.debug("Not current device")
+				return
+			}
+
+			$('#temp').text(params.temp_c)
+			$('#light').text(parseInt(params.light_pct*100))
+			$('#pir').text(params.pir)
 		}
 	},
 

@@ -20,10 +20,33 @@
 
 	<div class='span8'>
 		<h1 id='device_header'>Device Control <small class='device_name'>(no device selected)</small></h1>
-		<h4>Relay Control</h4>
-		<div id='relay_list' class='btn-toolbar'>
-			<a href='/device/-1/relay/1' class='btn disabled btn-danger'>Relay 1</a>
-			<a href='/device/-1/relay/2' class='btn disabled btn-success'>Relay 2</a>
+
+		<div class='row'>
+		<div class='span4'>
+			<h4>Relay Control</h4>
+			<div id='relay_list' class='btn-toolbar'>
+				<a href='/device/-1/relay/1' class='btn disabled btn-danger'>Relay 1</a>
+				<a href='/device/-1/relay/2' class='btn disabled btn-success'>Relay 2</a>
+			</div>
+		</div>
+		<div class='span4'>
+			<h4>Current Readings</h4>
+			<div>
+				<span class='muted'>Temp:</span> 
+				<strong id='temp'></strong>
+				<span class='muted'>&deg;c</span>
+			</div>
+			<div>
+				<span class='muted'>Light:</span> 
+				<strong id='light'></strong>
+				<span class='muted'>%</span>
+			</div>
+			<div>
+				<span class='muted'>PIR:</span> 
+				<strong id='pir'></strong>
+				<span class='muted'></span>
+			</div>
+		</div>
 		</div>
 	</div>
 

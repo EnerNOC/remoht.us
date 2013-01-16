@@ -17,7 +17,7 @@ PASS = ''
 DOMAIN = 'talk.google.com'
 PORT = 5222
 REMOHT_SERVICE = 'xmpp@remohte.appspotchat.com'
-READING_FREQ = 30 # seconds
+READING_FREQ = 15 # seconds
 
 TTY='/dev/ttyUSB0'
 BAUD=9600
@@ -67,7 +67,12 @@ class RemohtPi(object):
     def serial_callback(self,data):
         cmd = data[0]
 
-        if cmd == CMD_READING: # data, format should be ... TODO
+        if cmd == CMD_READING: # data, format should be ... d temp_c light_pct pir_0_or_1
+            cmd = "readings"
+            data = {
+                "temp_c"    : float(data[1]),
+                "light_pct" : float(data[2]),
+                "pir"       : bool(int(data[3])) }
             pass
         elif cmd == CMD_RELAY: # relay states, format should be r 0 1
             cmd = "get_relays"
@@ -81,12 +86,14 @@ class RemohtPi(object):
         self.send_xmpp( cmd, data )
 
         
-    def get_relays(self):
+    def get_relays(self,relay_id=None):
         self.serial.send(CMD_RELAY) # get relays
+#        self.send_xmpp("get_relays", {"
 
 
-    def toggle_relay(self,relay_id=0,val=0):
-        self.serial.send('%s %d %d' % (CMD_RELAY, relay_id, val))
+    def toggle_relay(self,relay_id=0,state=0):
+        relay_id = 1 if relay_id=='relay_1' else 0
+        self.serial.send('%s %d %d' % (CMD_RELAY, relay_id, state))
 
 
     def get_readings(self):

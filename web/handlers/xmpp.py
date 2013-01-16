@@ -39,7 +39,7 @@ class ChatHandler(webapp2.RequestHandler):
 
         if cmd == 'get_relays':
 
-            new_relays = parsed['data']['relays']
+            new_relays = parsed['data']
 
             if device.relays is None: device.relays = {}
 
@@ -50,7 +50,7 @@ class ChatHandler(webapp2.RequestHandler):
             device.put()
 
             # pass the message on to the web UI user
-            channel_id = device.owner.user_id()            
+            channel_id = device.owner.user_id()
             channel.send_message( channel_id, 
                     json.dumps({
                         "cmd" : cmd,
@@ -61,6 +61,12 @@ class ChatHandler(webapp2.RequestHandler):
                         } )
                     )
 
+        elif cmd == 'readings':
+            channel_id = device.owner.user_id()
+            parsed['data']['device_id'] = device.id
+            channel.send_message( channel_id,
+                    json.dumps(parsed) )
+
         else: 
             logging.warn("Unknown command: %s", cmd)
 
@@ -69,6 +75,7 @@ class PresenceHandler(webapp2.RequestHandler):
     def post(self,operation):
         logging.info('Presence! %s', self.request.POST)
         from_jid, resource = split_jid( self.request.get('from') )
+        full_resource = self.request.get('from').split('/')[1]
 
         xmpp_user = model.XMPPUser.get_by_jid( from_jid )
 
@@ -98,6 +105,8 @@ class PresenceHandler(webapp2.RequestHandler):
 
         else:
             logging.debug( "Presence from unknown device %s/%s", from_jid, resource )
+
+        model.cache_full_resource(from_jid, resource, full_resource)
 
         # attempt to send presence down to the owner.  If 
         # the owner is not online, no error so no problem

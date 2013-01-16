@@ -40,7 +40,12 @@ class DeviceHandler(BaseHandler):
 
         user = users.get_current_user()
         jid = user.email()
+
+        full_resource = model.get_full_resource( jid, resource )
+        
+        if full_resource: resource = full_resource
         full_jid = '%s/%s' % (jid, resource)
+
         online, avail = xmpp.get_presence(full_jid, get_show=True)
 
         device = model.Device.from_resource(resource)
@@ -92,9 +97,10 @@ class RelayHandler(BaseHandler):
         device = model.Device.get_by_id(int(device_id))
         if device is None: return self.notfound()
         
-        msg = { "op" : "get_relay",
-                "relay" : relay }
+        msg = { "cmd" : "get_relays",
+                "params" : {"relay_id" : relay } }
 
+        logging.debug("Sending get_relay to %s", device.full_jid)
         xmpp.send_message(device.full_jid, json.dumps(msg))
         self.render_json({"msg":"OK","relays":device.relays})
 
@@ -108,12 +114,14 @@ class RelayHandler(BaseHandler):
         device = model.Device.get_by_id(int(device_id))
         if device is None: return self.notfound()
 
-        msg = { "op" : "set_relay",
-                "relay" : relay }
+        state = self.request.get("state",None)
+        msg = { "cmd" : "toggle_relay",
+                "params" : { "relay_id" : relay,
+                             "state" : int(state) } }
 
-        to_jid = device.jid
-        resource = device.get_available_resource()
-        if resource != None: to_jid = '%s/%s' % (to_jid,resource)
+        to_jid = device.full_jid
         
+        logging.debug("Sending toggle_relay to %s, %s=%s", to_jid, relay, state)
 #        from_jid = "%s/user-%s" % (base_jid, user.user_id())
         xmpp.send_message( to_jid, json.dumps(msg))#, from_jid=from_jid)
+        self.render_json({"msg":"OK","relays":device.relays})

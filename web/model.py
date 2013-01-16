@@ -1,7 +1,9 @@
 # Copyright (c) 2011 Thom Nichols
 
 from google.appengine.ext import ndb
-from google.appengine.api import users
+from google.appengine.api import users, memcache
+
+CACHE_RESOURCE_KEY = "full-resource.%s/%s"
 
 class XMPPUser(ndb.Model):
     user = ndb.UserProperty(required=True)
@@ -22,6 +24,12 @@ class XMPPUser(ndb.Model):
         return cls.query(cls.jid == jid).get()
 
 
+def cache_full_resource(jid, short_resource, full_resource):
+        memcache.set( CACHE_RESOURCE_KEY % (jid, short_resource), full_resource )
+
+def get_full_resource(jid, short_resource):
+        return memcache.get( CACHE_RESOURCE_KEY % (jid, short_resource) )
+
 class Device(ndb.Model):
     owner = ndb.UserProperty(required=True)
     jid = ndb.StringProperty(required=True) # TODO validate JID format
@@ -32,7 +40,13 @@ class Device(ndb.Model):
     
     @property
     def full_jid(self):
-        return '%s/%s' % (self.jid, self.resource)
+        return '%s/%s' % (self.jid, self.full_resource)
+
+
+    @property
+    def full_resource(self):
+        result = memcache.get( CACHE_RESOURCE_KEY % (self.jid, self.resource) )
+        return result or self.resource
 
     @classmethod
     def from_resource(cls,resource,jid=None):

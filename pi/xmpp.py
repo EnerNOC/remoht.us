@@ -35,6 +35,7 @@ class RemohtXMPP(sleekxmpp.ClientXMPP):
 
         op = self.op_map.get(cmd,None)
         if op is None:
+            logging.warn( "Unknown command: %s", cmd )
             result = {"msg":"Error: unknown command: %s" % cmd, 'status':1}
             msg.reply( json.dumps(result) ).send()
             return 
