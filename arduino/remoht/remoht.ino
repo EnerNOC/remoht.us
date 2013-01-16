@@ -18,6 +18,7 @@
 #define PIN_RELAY_2 3 // digital out
 #define RELAY_DEFAULT LOW
 
+// Note: the PIR is 'active' low so an internal pull-up is used on this pin.
 #define PIN_PIR 4  // digital in 
 #define PIN_LDR 0  // analog in
 #define PIN_TEMP 1 // analog in
