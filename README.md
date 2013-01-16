@@ -7,7 +7,9 @@ project demonstrates a number of interesting technologies including XMPP,
 AppEngine's Channel API, and the [Raspberry Pi](http://raspberrypi.org/).
 
 Conceptual block diagram:
-![Block diagram](block-diagram.png)
+<a href='block-diagram.png' target='_new'>
+	<img src='block-diagram.png' title='Block diagram' style='max-width:600px'/>
+</a>
 
 The components of the project are outlined below:
 
@@ -20,6 +22,9 @@ universally accessible without having to deal with connecting through a NAT
 firewall to the HAN-side device.
 
 Install this by [deploying it](https://developers.google.com/appengine/docs/python/gettingstartedpython27/uploading) to AppEngine.
+
+Note you should run `minify.sh` prior to uploading to AppEngine as the deployed
+version will look for minified CSS and JS assets.
 
 
 
