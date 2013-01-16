@@ -7,8 +7,8 @@ project demonstrates a number of interesting technologies including XMPP,
 AppEngine's Channel API, and the [Raspberry Pi](http://raspberrypi.org/).
 
 Conceptual block diagram:
-<a href='raw/master/block-diagram.png' target='_new'>
-	<img src='raw/master/block-diagram.png' title='Block diagram' style='max-width:600px'/>
+<a href='remoht.us/raw/master/block-diagram.png' target='_new'>
+	<img src='remoht.us/raw/master/block-diagram.png' title='Block diagram' style='max-width:600px'/>
 </a>
 
 The components of the project are outlined below:
