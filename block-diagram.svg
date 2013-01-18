@@ -14,7 +14,10 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.1 r9760"
-   sodipodi:docname="New document 1">
+   sodipodi:docname="block-diagram.svg"
+   inkscape:export-filename="/Users/tnichols/dev/remoht.us/block-diagram.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
   <defs
      id="defs4">
     <marker
@@ -92,13 +95,13 @@
      inkscape:pageshadow="2"
      inkscape:zoom="0.90028971"
      inkscape:cx="372.04724"
-     inkscape:cy="706.69447"
+     inkscape:cy="741.45646"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="1360"
      inkscape:window-height="800"
-     inkscape:window-x="0"
+     inkscape:window-x="169"
      inkscape:window-y="0"
      inkscape:window-maximized="0" />
   <metadata
@@ -172,7 +175,7 @@
        rx="12.500302" />
     <text
        xml:space="preserve"
-       style="font-size:18.75045586px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       style="font-size:20px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Gill Sans;-inkscape-font-specification:Gill Sans"
        x="31.232456"
        y="362.81064"
        id="text3761"
@@ -187,7 +190,7 @@
          id="tspan5813">HTTP UI</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:18.75045586px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       style="font-size:20px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Gill Sans;-inkscape-font-specification:Gill Sans"
        x="281.94876"
        y="129.61369"
        id="text3765"
@@ -198,7 +201,7 @@
          y="129.61369">AppEngine</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:18.75045586px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       style="font-size:20px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Gill Sans;-inkscape-font-specification:Gill Sans"
        x="475.09586"
        y="383.55728"
        id="text3769"
@@ -209,7 +212,7 @@
          y="383.55728">Raspberry Pi</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:18.75045586px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       style="font-size:20px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Gill Sans;-inkscape-font-specification:Gill Sans"
        x="475.00833"
        y="501.064"
        id="text3773"
@@ -218,15 +221,15 @@
          id="tspan3775"
          x="475.00833"
          y="501.064"
-         style="font-size:18.75045586px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;font-family:Sans;-inkscape-font-specification:Sans">Arduino + </tspan><tspan
+         style="font-size:20px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr;text-anchor:start;fill:#ffffff;fill-opacity:1;font-family:Gill Sans;-inkscape-font-specification:Gill Sans">Arduino + </tspan><tspan
          sodipodi:role="line"
          x="475.00833"
          y="524.50208"
          id="tspan3777"
-         style="font-size:18.75045586px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;font-family:Sans;-inkscape-font-specification:Sans">Sensors</tspan></text>
+         style="font-size:20px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr;text-anchor:start;fill:#ffffff;fill-opacity:1;font-family:Gill Sans;-inkscape-font-specification:Gill Sans">Sensors</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:14.58368683px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#1c1c1c;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       style="font-size:14.58368683px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr;text-anchor:start;fill:#1c1c1c;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
        x="66.299873"
        y="279.9982"
        id="text3779"
@@ -242,21 +245,21 @@
     <text
        xml:space="preserve"
        style="font-size:14.58368683px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#1c1c1c;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
-       x="223.82495"
-       y="242.87633"
+       x="217.16043"
+       y="259.53763"
        id="text3783"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3785"
-         x="223.82495"
-         y="242.87633">Channels API</tspan><tspan
+         x="217.16043"
+         y="259.53763">Channels API</tspan><tspan
          sodipodi:role="line"
-         x="223.82495"
-         y="261.10596"
+         x="217.16043"
+         y="277.76724"
          id="tspan5771">(push)</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:14.58368683px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#1c1c1c;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       style="font-size:14.58368683px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr;text-anchor:start;fill:#1c1c1c;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
        x="439.00708"
        y="264.45035"
        id="text3787"
@@ -267,7 +270,7 @@
          y="264.45035">XMPP (bi-directional)</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:14.58368683px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#1c1c1c;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       style="font-size:14.58368683px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr;text-anchor:start;fill:#1c1c1c;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
        x="526.74683"
        y="454.84283"
        id="text3791"
@@ -311,15 +314,13 @@
          style="font-size:25.00060463px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:condensed;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Impact;-inkscape-font-specification:Impact Condensed">&quot;The Cloud!&quot;</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:18.75045586px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       style="font-size:22px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:PilGi;-inkscape-font-specification:PilGi"
        x="484.25027"
        y="336.82333"
        id="text5767"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
-         id="tspan5769"
-         x="484.25027"
-         y="336.82333">Local Area Network</tspan></text>
+         id="tspan5838">Home Area Network</tspan></text>
     <rect
        rx="11.281125"
        ry="11.281125"
@@ -364,5 +365,17 @@
          id="tspan5811"
          x="43.605804"
          y="578.22302">firewall and static IPs on the home side.</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="485.39929"
+       y="57.126991"
+       id="text5834"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan5836"
+         x="485.39929"
+         y="57.126991"
+         style="font-size:48px;font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Futura;-inkscape-font-specification:Futura Medium">Remoht.us</tspan></text>
   </g>
 </svg>
