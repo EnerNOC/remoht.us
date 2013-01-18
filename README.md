@@ -77,6 +77,21 @@ hardware readings to the Raspberry Pi.  The project source contains a
 [Fritzing](http://fritzing.org).
 
 
+### Connecting the Arduino to the Raspberry Pi
+
+There are a couple options here.  If you have an Arduino with an on-board USB port, 
+simply connect the Arduino to your Raspberry Pi's USB powered hub.  The Arduino should
+then enumerate as `/dev/ttyUSB0`.  You would then run the Raspberry Pi client as follows:
+
+    python remoht.py --tty=/dev/ttyUSB0 # plus additional parameters
+
+If you are using an Arduino Pro Mini or any other chip that does not have built-in USB
+interface or FTDI usb-to-serial converter, you can connect the serial and power pins 
+directly to the Pi's [GPIO header](http://elinux.org/RPi_Low-level_peripherals) which 
+is exposed as `/dev/ttyAMA0`.  In that case, note that the TX pin on the Ardunio 
+connects to the RX (pin 15) on the Raspberry Pi and vice versa.  The 5v or 3v3 
+should also be able to power the Arduino and sensors, but probably not the relays.  
+
 
 ## To Do
 
@@ -84,3 +99,19 @@ hardware readings to the Raspberry Pi.  The project source contains a
 * Local web UI on the Raspberry Pi
 * Local logging on the Raspberry Pi, push readings to the cloud on change-of-value 
   rather than a polling interval
+
+## Legal 
+
+Copyright 2013 EnerNOC Inc
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
