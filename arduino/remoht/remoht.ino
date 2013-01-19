@@ -18,6 +18,10 @@
 #define PIN_RELAY_2 3 // digital out
 #define RELAY_DEFAULT LOW
 
+#define SAMPLE_DELAY 100 // milliseconds between readings
+#define REPORT_THRESHOLD 2000 // don't report more frequently than every N milliseconds
+#define ANALOG_CHANGE_THRESHOLD .05 // requre 5% change to report
+
 // Note: the PIR is 'active' low so an internal pull-up is used on this pin.
 #define PIN_PIR 4  // digital in 
 #define PIN_LDR 0  // analog in
@@ -27,18 +31,23 @@
 
 #define ALPHA 0.15 // for low-pass filter
 
-int heartbeat = LOW;
-int relayPins[] = {PIN_RELAY_1, PIN_RELAY_2};
-int LEVELS[] = {LOW, HIGH};
-int relayStates[] = {0 ,0};
-
-float tempC = 40.0;
-float lightPct = 1.0;
-int pir = 0;
+short heartbeat = LOW;
+short relayPins[] = {PIN_RELAY_1, PIN_RELAY_2};
+short relayStates[] = {0,0};
 
 #define CMD_TERMINATOR '\n'
 #define BUF_LEN 20
 char cmdBuf[BUF_LEN];
+
+struct Readings {
+	float tempC;
+	float lightPct;
+	short pir;
+};
+
+unsigned long lastReport = 0;
+Readings lastVals = { 40.0, 1.0, 0 };
+Readings newVals = { 40.0, 1.0, 0 };
 
 void setup() {
 #ifdef TTL_3V3
@@ -57,12 +66,25 @@ void setup() {
 void loop() {
   
   if (Serial.available() <= 1) {
-    delay(100);
     readTemp(); // continuously sample
     readPIR();
     readLDR();
+    
+    unsigned long now = millis();
+    if ( changedVals(now) ) {
+    	printReadings();
+    	lastReport = now;
+    	lastVals = newVals; // save last reported vals
+    	newVals = (Readings){ lastVals.tempC, // initialize a 'new' set of new vals.
+    		                    lastVals.lightPct,
+    		                    lastVals.pir };
+		}
+
+		#if HEARTBEAT == 1
     heartbeat = ( heartbeat == HIGH ? LOW : HIGH );
     digitalWrite(PIN_HEARTBEAT, heartbeat);
+		#endif
+    delay( SAMPLE_DELAY );
     return;
   }
   
@@ -87,9 +109,8 @@ void loop() {
       break;
       
     default:
-      Serial.print("x");
+      Serial.print("x"); // unknown value
   }
-  Serial.write(CMD_TERMINATOR);
   digitalWrite(PIN_HEARTBEAT,LOW);
 }
 
@@ -100,15 +121,33 @@ void printRelays() {
     if ( i+1 != NUM_RELAYS )
       Serial.print(" ");
   }
+  Serial.write(CMD_TERMINATOR);
+}
+
+bool changedVals(unsigned long now) {
+	if ( now - lastReport < REPORT_THRESHOLD ) return false;
+	bool changed = false;
+
+	if ( newVals.pir != lastVals.pir ) return true;
+
+	float diff = abs(newVals.lightPct - lastVals.lightPct);
+	// this is already a percent
+	if ( diff > ANALOG_CHANGE_THRESHOLD ) return true;
+
+	diff = abs(newVals.tempC - lastVals.tempC);
+	if ( diff / lastVals.tempC > ANALOG_CHANGE_THRESHOLD ) return true;
+
+	return false;
 }
 
 void printReadings() {
   Serial.print("d ");
-  Serial.print( tempC );
+  Serial.print( newVals.tempC );
   Serial.print(" ");
-  Serial.print( lightPct );
+  Serial.print( newVals.lightPct );
   Serial.print(" ");
-  Serial.print( pir );
+  Serial.print( newVals.pir );
+  Serial.write(CMD_TERMINATOR);
 }
 
 float readTemp() {
@@ -117,8 +156,10 @@ float readTemp() {
   float vout = newReading * TTL_V / ANALOG_HIGH;
   float newTempC = (vout - 0.5) * 100;
 //  float newTempC = newReading;
-  tempC = lowPass( newTempC, tempC );
-  return tempC;
+  newTempC = lowPass( newTempC, newVals.tempC );
+  if ( newTempC != newVals.tempC )
+		newVals.tempC = newTempC;
+  return newTempC;
 }
 
 float readLDR() {
@@ -126,15 +167,19 @@ float readLDR() {
   // map to a floating point value between 0.0 and 1.0
   
   float ldrNew = float(ldrRaw) / ANALOG_HIGH;
-  lightPct = lowPass(ldrNew, lightPct);
-  return lightPct;
+  ldrNew = lowPass(ldrNew, newVals.lightPct);
+  if ( ldrNew != newVals.lightPct )
+		newVals.lightPct = ldrNew;
+  return ldrNew;
 }
 
 int readPIR() {
-  pir = digitalRead(PIN_PIR);
-  pir = ( pir == LOW ? 1 : 0 ); // 0 means motion detected
+  int newPir = digitalRead(PIN_PIR);
+  newPir = ( newPir == LOW ? 1 : 0 ); // 0 means motion detected
+	if ( newPir != newVals.pir )
+		newVals.pir = newPir;
   // This is already smoothed by capacitors
-  return pir;
+  return newPir;
 }
 
 /* Low pass filter to smooth sensor readings */
@@ -149,7 +194,7 @@ void resetRelays() {
 
 void setRelay(int index, int val) {
   relayStates[index] = val;
-  digitalWrite(relayPins[index], LEVELS[val]);
+  digitalWrite(relayPins[index], val == 0 ? LOW : HIGH);
 }
 
 

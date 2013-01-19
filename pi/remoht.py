@@ -37,8 +37,10 @@ class RemohtPi(object):
         self.xmpp = xmpp.RemohtXMPP( jid, pwd, op_map=self.op_map )
         self.connect_props = (domain,port)
 
-        self.xmpp.add_task( READING_FREQ, self.data_collector_task, 
-                repeat=True, name='Reading collector' )
+# The arduino should push readings on change-of-value.
+# But this can be used to poll if desired.
+#        self.xmpp.add_task( READING_FREQ, self.data_collector_task, 
+#                repeat=True, name='Reading collector' )
 
         self.serial = arduino.ArduinoSerial( tty, baud )
         self.serial.add_callback( self.serial_callback )
