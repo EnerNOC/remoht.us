@@ -79,8 +79,10 @@ class RemohtPi(object):
         elif cmd == CMD_RELAY: # relay states, format should be r 0 1
             cmd = "get_relays"
             data = {
-                "relay_1" : int(data[1]),
-                "relay_2" : int(data[2]) }
+                "relays": {
+                    "relay_1" : int(data[1]),
+                    "relay_2" : int(data[2]) }
+                }
         else:
             logging.warn("Unknown command: %s", data)
             return
