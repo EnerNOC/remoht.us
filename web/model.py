@@ -28,7 +28,10 @@ def cache_full_resource(jid, short_resource, full_resource):
         memcache.set( CACHE_RESOURCE_KEY % (jid, short_resource), full_resource )
 
 def get_full_resource(jid, short_resource):
-        return memcache.get( CACHE_RESOURCE_KEY % (jid, short_resource) )
+        return memcache.get( CACHE_RESOURCE_KEY % (jid, short_resource) ) or short_resource
+
+
+
 
 class Device(ndb.Model):
     owner = ndb.UserProperty(required=True)

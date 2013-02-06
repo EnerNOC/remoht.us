@@ -43,8 +43,7 @@ class DeviceHandler(BaseHandler):
 
         full_resource = model.get_full_resource( jid, resource )
         
-        if full_resource: resource = full_resource
-        full_jid = '%s/%s' % (jid, resource)
+        full_jid = '%s/%s' % (jid, full_resource)
 
         online, avail = xmpp.get_presence(full_jid, get_show=True)
 
@@ -53,7 +52,7 @@ class DeviceHandler(BaseHandler):
         msg = "OK"
         if device != None:
             msg = "JID %s is already added" % jid
-            self.response.status = 304
+            self.response.status = 200 #fixme
 
         else:
             logging.debug("Adding device %s", full_jid)

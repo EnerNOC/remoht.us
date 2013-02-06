@@ -11,7 +11,7 @@ RESOURCE_TAG = ':'
 
 def split_jid(full_jid):
     jid, resource = full_jid.split('/')
-    if resource.index(RESOURCE_TAG) >=0:
+    if  resource.find(RESOURCE_TAG) >=0:
         resource = resource.split(RESOURCE_TAG)[0] 
 
     return jid, resource
@@ -36,29 +36,29 @@ class ChatHandler(webapp2.RequestHandler):
             return
 
         cmd = parsed['cmd']
+        logging.debug('---- COMMAND: %s', cmd)
 
         if cmd == 'get_relays':
+            logging.debug("NEW RELAYS: %s",parsed.get('data',None))
 
-            new_relays = parsed['data']
+            data = parsed['data']
 
             if device.relays is None: device.relays = {}
 
-            for relay,state in new_relays.iteritems():
+            for relay,state in data['relays'].iteritems():
                 device.relays[relay] = state
 
-            logging.debug("Updated relays for %s : %s", from_jid, new_relays)
+            logging.debug("Updated relays for %s : %s", message.sender, data)
             device.put()
 
             # pass the message on to the web UI user
             channel_id = device.owner.user_id()
+            data['device_id'] = device.id
             channel.send_message( channel_id, 
                     json.dumps({
                         "cmd" : cmd,
-                        "data": {
-                            "device_id": device.id,
-                            "relays" : new_relays
-                            }
-                        } )
+                        "data": data
+                        })
                     )
 
         elif cmd == 'readings':
