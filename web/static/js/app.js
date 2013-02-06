@@ -94,11 +94,6 @@ var app = {
 	}
 }
 
-// change the ICanHaz delimiters:
-if (typeof(Mustache) != "undefined") {
-
-}
-
 if ( typeof(Function.prototype.partial) == "undefined" ) {
 	Function.prototype.partial = function() {
     var fn = this, args = Array.prototype.slice.call(arguments);
@@ -110,4 +105,15 @@ if ( typeof(Function.prototype.partial) == "undefined" ) {
       return fn.apply(this, args);
     };
   };
+}
+
+// Stub for conole.log for browsers that don't have support
+if ( ! window.console ) {
+	var methods = "debug,error,exception,info,log,trace,warn".split(","),
+	    console = {},
+	    l = methods.length,
+	    fn = function() {}
+
+	while (l--) console[methods[l]] = fn
+	window.console = console
 }
