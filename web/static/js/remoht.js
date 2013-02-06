@@ -12,6 +12,8 @@ var remoht = {
 			e.preventDefault()
 			remoht.get_resources()
 		})
+
+		remoht.setup_chart()
 	},
 
 	resources : {},
@@ -131,6 +133,83 @@ var remoht = {
 		})
 	},
 
+	reading_data : [], // gets populated from channel push
+
+	cubism_source : function(context) {
+		var source = {};
+		source.metric = function(expression, title) {
+			var metric = context.metric(function(start, stop, step, callback) {
+				var vals = remoht.reading_data.slice(-1)
+					.map(function(e) { return eval(expression) })
+				// callback expects this many elements:
+				var elements = (stop - start) / step
+				for( i=1; i<elements; i++) vals.push(vals[0])
+				callback(null, vals)
+			});
+			metric.toString = function() { return title; }
+			return metric
+		}
+		return source
+	},
+
+	setup_chart : function() {
+		var context = cubism.context()
+			.serverDelay(0) 
+			.clientDelay(0)
+			.step(2e3)
+			.size($('#chart').width()) // TODO dynamically resize
+
+		var chartHeight= 30
+		var source = remoht.cubism_source(context)
+		var temp = source.metric('e.temp_c', 'Temp °C')
+		var light = source.metric('e.light_pct', 'Light')
+		var occupancy = source.metric('e.pir', 'Occupied')
+
+		var horizonTemp = context.horizon()
+			.height(chartHeight).mode("offset")
+			.extent([10, 70])
+			.colors(["#bae4b3","#74c476","#31a354","#006d2c"])
+
+		var horizonLight = context.horizon()
+			.height(chartHeight).mode("offset")
+			.extent([0, 1])
+			.colors(["#08519c","#3182bd","#6baed6","#bdd7e7"])
+
+		var horizonOccupancy = context.horizon()
+			.height(chartHeight).mode("offset")
+			.extent([0, 1])
+			.colors(['#e82f2f', '#e82f2f'])
+
+		d3.select('#chart').call(function(div) {
+			div.append("div").attr("class", "axis")
+				.call( context.axis()
+					.orient("top")
+					.ticks(d3.time.minutes, 5)
+					.tickSubdivide(5) )
+
+			div.append("div").datum(temp)
+				.attr("class", "horizon")
+				.call(horizonTemp)
+
+			div.append("div").datum(light)
+				.attr("class", "horizon")
+				.call(horizonLight)
+
+			div.append("div").datum(occupancy)
+				.attr("class", "horizon")
+				.call(horizonOccupancy)
+
+			div.append("div")
+				.attr("class", "rule")
+				.call(context.rule()); 
+		})
+
+		context.on("focus", function(i) {
+			d3.selectAll(".value").style(
+				"right", i == null ? null : context.size() - i + "px");
+		})
+	},
+
 	// These commands should correspond to the XMPP commands sent from 
 	// a device - see handlers/xmpp.ChatHandler#post()
 	channel_commands : {
@@ -164,7 +243,7 @@ var remoht = {
 		},
 
 		readings : function(params) {
-			if ( ! remoht.current_device_id == params.device_id ) {
+			if ( remoht.current_device_id != params.device_id ) {
 				console.debug("Not current device")
 				return
 			}
@@ -172,6 +251,8 @@ var remoht = {
 			$('#temp').text(params.temp_c)
 			$('#light').text(parseInt(params.light_pct*100))
 			$('#pir').text(params.pir)
+
+			remoht.reading_data.push(params)
 		}
 	},
 

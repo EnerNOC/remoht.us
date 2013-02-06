@@ -12,3 +12,66 @@
   font-weight:normal;
   font-size:18px;
 }
+
+#readings .rlabel {
+	display:inline-block;
+	width:12%;
+	text-align:right;
+	margin-right:6px;
+	color: #999;
+	text-transform: uppercase;
+	font-size: 11px;
+	font-weight: bold;
+}
+
+#readings strong {
+	font-size: 1.7em;
+	line-height: .7em
+}
+
+#chart {
+	font-size: .8em;
+	border-bottom: 1px solid #333;
+	position: relative; /*needed for cubism's 'rule' (vertical line) */
+}
+
+.horizon {
+	border-top: 1px solid #333;
+	overflow: hidden;
+  position: relative;
+}
+
+.horizon canvas { display:block }
+
+.horizon .title, .horizon .value {
+	position: absolute;
+	top: 0;
+	margin-top:6px;
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5)
+}
+
+.horizon .title { left: 0 }
+.horizon .value {	
+	right: 6px;
+	margin-right:8px
+}
+
+.axis path, .axis line {
+	fill: none;
+	shape-rendering: crispedges;
+	stroke: #000;
+}
+
+.axis path {
+    display: none;
+}
+.axis line {
+    shape-rendering: crispedges;
+    stroke: #000;
+}
+
+.line {
+    background: none repeat scroll 0 0 #000;
+    opacity: 0.2;
+    z-index: 2;
+}

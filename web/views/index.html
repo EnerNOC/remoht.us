@@ -7,12 +7,14 @@
 		<div class='well'>
 			<ul class="nav nav-list" id='device_list'>
 				<li class="nav-header">Devices</li>
+				<li class='muted'>(add a device below)</li>
 			</ul>
 		</div>
 
 		<div class='well'>
 			<ul class="nav nav-list" id='resource_list'>
 				<li class="nav-header">Add a Device</li>
+				<li class='muted'>(no online devices)</li>
 			</ul>
 			<a href='/resources/' id='resources-refresh'>Refresh</a>
 		</div>
@@ -22,31 +24,38 @@
 		<h1 id='device_header'>Device Control <small class='device_name'>(no device selected)</small></h1>
 
 		<div class='row'>
-		<div class='span4'>
-			<h4>Relay Control</h4>
-			<div id='relay_list' class='btn-toolbar'>
-				<a href='/device/-1/relay/1' class='btn disabled btn-danger'>Relay 1</a>
-				<a href='/device/-1/relay/2' class='btn disabled btn-success'>Relay 2</a>
+			<div class='span4'>
+				<h4>Relay Control</h4>
+				<div id='relay_list' class='btn-toolbar'>
+					<a href='/device/-1/relay/1' class='btn btn-large disabled btn-danger'>Relay 1</a>
+					<a href='/device/-1/relay/2' class='btn btn-large disabled btn-success'>Relay 2</a>
+				</div>
+			</div>
+
+			<div class='span4' id='readings'>
+				<h4>Current Readings</h4>
+				<div>
+					<span class='rlabel'>Temp:</span> 
+					<strong id='temp'>(unknown)</strong>
+					<span class='muted'>&deg;c</span>
+				</div>
+				<div>
+					<span class='rlabel'>Light:</span> 
+					<strong id='light'>(unknown)</strong>
+					<span class='muted'>%</span>
+				</div>
+				<div>
+					<span class='rlabel'>PIR:</span> 
+					<strong id='pir'>(unknown)</strong>
+					<span class='muted'></span>
+				</div>
 			</div>
 		</div>
-		<div class='span4'>
-			<h4>Current Readings</h4>
-			<div>
-				<span class='muted'>Temp:</span> 
-				<strong id='temp'></strong>
-				<span class='muted'>&deg;c</span>
+
+		<div class='row'>
+			<div class='span8'>
+				<div id='chart'> </div>
 			</div>
-			<div>
-				<span class='muted'>Light:</span> 
-				<strong id='light'></strong>
-				<span class='muted'>%</span>
-			</div>
-			<div>
-				<span class='muted'>PIR:</span> 
-				<strong id='pir'></strong>
-				<span class='muted'></span>
-			</div>
-		</div>
 		</div>
 	</div>
 
@@ -85,6 +94,8 @@
 
 {% block more_script %}
 <script type="text/javascript" src="/_ah/channel/jsapi"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/d3/3.0.1/d3.v3.min.js"></script>
+<script type='text/javascript' src='/static/js/lib/cubism.v1.min.js'></script>
 {% if debug %}
 <script type='text/javascript' src='/static/js/remoht.js'></script>
 {% else %}
