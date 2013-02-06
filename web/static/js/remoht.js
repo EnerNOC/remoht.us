@@ -107,7 +107,7 @@ var remoht = {
 			
 			var relay_button = app.n('a', {
 					href : '/device/'+device_id+'/relay/'+key,
-					'class' : 'btn' }, 
+					'class' : 'btn btn-large' }, 
 				key )
 
 			state = relays[key]
@@ -167,13 +167,13 @@ var remoht = {
 
 		var horizonTemp = context.horizon()
 			.height(chartHeight).mode("offset")
-			.extent([10, 70])
+			.extent([10.0, 70.0])
 			.colors(["#bae4b3","#74c476","#31a354","#006d2c"])
 
 		var horizonLight = context.horizon()
 			.height(chartHeight).mode("offset")
 			.extent([0, 1])
-			.colors(["#08519c","#3182bd","#6baed6","#bdd7e7"])
+			.colors(["#08519c","#3182bd","#bdd7e7","#6baed6"])
 
 		var horizonOccupancy = context.horizon()
 			.height(chartHeight).mode("offset")
@@ -278,6 +278,7 @@ var remoht = {
 
 					onerror : function(err) {
 						console.warn(err)
+						remoht.open_channel() // re-open channel
 					},
 
 					onclose : function() {
