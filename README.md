@@ -8,8 +8,8 @@ AppEngine's Channel API, and the [Raspberry Pi](http://raspberrypi.org/).
 
 Conceptual block diagram:
 
-<a href='/tomstrummer/remoht.us/raw/master/block-diagram.png' target='_new'>
-	<img src='/tomstrummer/remoht.us/raw/master/block-diagram.png' title='Block diagram' 
+<a href='../../raw/master/block-diagram.png' target='_new'>
+	<img src='../../raw/master/block-diagram.png' title='Block diagram' 
 	style='max-width:600px'/>
 </a>
 
@@ -18,8 +18,8 @@ The components of the project are outlined below:
 
 ## Web
 
-<a href='/tomstrummer/remoht.us/raw/master/screenshot.png' target='_new' style='float:right'>
-	<img src='/tomstrummer/remoht.us/raw/master/screenshot.png' title='Screenshot' 
+<a href='../../raw/master/screenshot.png' target='_new' style='float:right'>
+	<img src='../../raw/master/screenshot.png' title='Screenshot' 
 	style='max-width:200px'/>
 </a>
 
