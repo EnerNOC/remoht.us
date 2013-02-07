@@ -8,8 +8,8 @@ AppEngine's Channel API, and the [Raspberry Pi](http://raspberrypi.org/).
 
 Conceptual block diagram:
 
-<a href='remoht.us/raw/master/block-diagram.png' target='_new'>
-	<img src='remoht.us/raw/master/block-diagram.png' title='Block diagram' 
+<a href='/tomstrummer/remoht.us/raw/master/block-diagram.png' target='_new'>
+	<img src='/tomstrummer/remoht.us/raw/master/block-diagram.png' title='Block diagram' 
 	style='max-width:600px'/>
 </a>
 
@@ -17,6 +17,16 @@ The components of the project are outlined below:
 
 
 ## Web
+
+<a href='/tomstrummer/remoht.us/raw/master/screenshot.png' target='_new' style='float:right'>
+	<img src='/tomstrummer/remoht.us/raw/master/screenshot.png' title='Screenshot' 
+	style='max-width:200px'/>
+</a>
+
+It's possible that anyone can use the live app at http://remoht.us/ - since you login
+with your own Google credentials and use those same credentials for your sensor 
+clusters (the Raspberry Pi(s)) there's no way for a user to view someone else's
+sensor data.  
 
 This is a [Google AppEngine](https://developers.google.com/appengine/) app that 
 serves as the web UI.  The benefit to being on AppEngine is that it is 
@@ -93,12 +103,22 @@ connects to the RX (pin 15) on the Raspberry Pi and vice versa.  The 5v or 3v3
 should also be able to power the Arduino and sensors, but probably not the relays.  
 
 
+## About XMPP
+
+The system assumes you will use the same GMail/ Google Talk account for both your web login 
+and the XMPP credentials on the Raspberry Pi.  This makes it a bit easier to auto-detect
+clients without requiring you to type in the JID that your Raspberry Pi is using.  If
+you're not comfortable re-using your Gmail password in the hardware, you can use
+[AuthSub](https://accounts.google.com/IssuedAuthSubTokens) from your Google account to 
+issue passwords for specific uses and revoke them later if necessary.
+
+
 ## To Do
 
 * add interrupt-driven events to the Pi rather than polling
 * Local web UI on the Raspberry Pi
 * Local logging on the Raspberry Pi, push readings to the cloud on change-of-value 
-  rather than a polling interval
+* Support multiple Arduino-based sensors (e.g. communicating via xbee)
 
 ## Legal 
 
