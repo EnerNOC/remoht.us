@@ -6,7 +6,7 @@
 	height: 26px;
 }
 
-.container { margin-top: 48px }
+.container-main { margin-top: 50px }
 
 .navbar a.brand {
 	font-family:Futura,Moderna,Helvetica,sans-serif;
@@ -49,7 +49,8 @@
 	position: absolute;
 	top: 0;
 	margin:6px 8px;
-	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5)
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+	line-height:40px
 }
 
 .horizon .title { left: 0 }

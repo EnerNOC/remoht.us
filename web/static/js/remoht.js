@@ -110,8 +110,9 @@ var remoht = {
 					'class' : 'btn btn-large' }, 
 				key )
 
-			state = relays[key]
-			relay_button.addClass( state == 0 ? 'btn-danger' : 'btn-success' )
+			var state = relays[key]
+			if ( state ) relay_button.addClass('btn-primary')
+			else relay_button.removeClass('btn-primary')
 
 			relay_button.bind( 'click', function(e) {
 				remoht.toggle_relay(device_id, key, state)
@@ -159,7 +160,7 @@ var remoht = {
 			.step(2e3)
 			.size($('#chart').width()) // TODO dynamically resize
 
-		var chartHeight= 30
+		var chartHeight= 50
 		var source = remoht.cubism_source(context)
 		var temp = source.metric('e.temp_c', 'Temp °C')
 		var light = source.metric('e.light_pct', 'Light')
@@ -167,13 +168,14 @@ var remoht = {
 
 		var horizonTemp = context.horizon()
 			.height(chartHeight).mode("offset")
-			.extent([10.0, 70.0])
-			.colors(["#bae4b3","#74c476","#31a354","#006d2c"])
+			.extent([5.0, 40.0])
+			.colors(["#08519c","#3182bd","#bdd7e7","#6baed6"])
+//			.colors(["#bae4b3","#74c476",'#79f17c',"#ca7eff","#ba57ff","#9a0aff"])
 
 		var horizonLight = context.horizon()
 			.height(chartHeight).mode("offset")
 			.extent([0, 1])
-			.colors(["#08519c","#3182bd","#bdd7e7","#6baed6"])
+			.colors(["#ea9611","#f3ba5f","#f3ba5f","#ea9611"])
 
 		var horizonOccupancy = context.horizon()
 			.height(chartHeight).mode("offset")

@@ -4,7 +4,7 @@ BASE_URL = 'http://localhost:8080/_ah/xmpp/'
 CHAT_URL = BASE_URL + 'presence/available/'
 
 TO_JID = 'rehmote@appspot.com'
-FROM_JID = 'test@example.com/test_2'
+FROM_JID = 'test@example.com/test_2:asdf2134'
 
 def send_presence():
 
