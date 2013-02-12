@@ -60,37 +60,12 @@ var app = {
 		return "" + Math.floor(amount) + unit + (amount < 2 ? "" : "s") + pastPresent;
 	},
 
-	// make text look like it's being typed on the screen :)
-	typewriter : function(dest, text, currentChar, delay ) {
-		dest.html(text.substr(0, currentChar++));
-		if (currentChar>text.length) return; // we are done
-		else setTimeout(function(){
-			app.typewriter(dest,text,currentChar,delay);
-		}, delay);
-	},
-
 	scrollTo : function(selector) {
 		var offset = $(selector).offset();
 		$('html, body').animate({
 				scrollTop: offset.top-30,
 				scrollLeft: offset.left-20
 		});
-	},
-
-	msg : function(text,heading,clazz) {
-		$('#errMsg .msg').text(text);
-		$('#errMsg .close').one('click',function(e) {
-			$('#errMsg').hide();
-			e.preventDefault();
-		});
-		if ( heading ) $('#errMsg h4').text(heading).show();
-		if ( ! clazz ) clazz='alert-info';
-		$('#errMsg').removeClass().addClass('alert '+clazz).show();
-		window.scrollTo(0,0);
-	},
-
-	errMsg : function(text) {
-		app.msg(text,"Oops!",' ');
 	}
 }
 
