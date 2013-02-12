@@ -91,7 +91,7 @@ class PresenceHandler(webapp2.RequestHandler):
             return
 
         # else operation is 'available' or 'unavailable'
-        if not resource: return
+        if not resource: return logging.debug("No resource on %s", from_jid)
 
         xmpp_user.resources[resource] = operation
         xmpp_user.put()
@@ -103,7 +103,7 @@ class PresenceHandler(webapp2.RequestHandler):
             device.presence = operation
             device.put()
 
-        else:
+        elif device is None:
             logging.debug( "Presence from unknown device %s/%s", from_jid, resource )
 
         model.cache_full_resource(from_jid, resource, full_resource)

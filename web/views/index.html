@@ -67,7 +67,8 @@
 <script type='text/html' id='resource_line'>
 	<li>
 		<a href='/device/'>
-			<span class='resource'>{{ resource }}</span>
+			<i class='icon-plus-sign'></i>
+			<span class='resource res-{{resource}}'>{{ resource }}</span>
 			<span class='pull-right'>
 				<span class='label label-important' title='unavailable'>
 					<i class='icon-remove'></i></span>
@@ -81,7 +82,7 @@
 	<li>
 		<a href='/device/{{ id }}'>
 			<i class='icon-home'></i> 
-			<span class='resource'>{{ resource }}</span> 
+			<span class='resource res-{{resource}}'>{{ resource }}</span> 
 			<span class='pull-right'>
 				<span class='label label-important' title='unavailable'>
 					<i class='icon-remove'></i></span>

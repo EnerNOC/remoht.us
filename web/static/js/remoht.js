@@ -59,6 +59,10 @@ var remoht = {
 	get_devices : function() {
 		$.ajax('/device/', {
 			success: function(data,stat,xhr) {
+				$('#device_list').find('li').each(function(i,item) {
+					item = $(item)
+					if ( ! item.hasClass('nav-header') ) item.remove() 
+				})
 				for( i in data.devices ) {
 					remoht.add_device_to_list( data.devices[i] )
 				}
@@ -82,6 +86,7 @@ var remoht = {
 	},
 
 	toggle_presence : function(elem,presence) {
+		if ( ! elem ) return
 		if ( presence == 'available' ) {
 			elem.find('.label-important').hide()
 			elem.find('.label-success').show()
@@ -134,17 +139,16 @@ var remoht = {
 		})
 	},
 
-	reading_data : [], // gets populated from channel push
+	last_reading : {}, // gets populated from channel push
 
 	cubism_source : function(context) {
 		var source = {};
 		source.metric = function(expression, title) {
 			var metric = context.metric(function(start, stop, step, callback) {
-				var vals = remoht.reading_data.slice(-1)
-					.map(function(e) { return eval(expression) })
-				// callback expects this many elements:
+				var vals = [function(e) { return eval(expression) }(remoht.last_reading)]
+				// callback expects this many elements, just duplicate the last val:
 				var elements = (stop - start) / step
-				for( i=1; i<elements; i++) vals.push(vals[0])
+				for( var i=1; i<elements; i++ ) vals.push(vals[0])
 				callback(null, vals)
 			});
 			metric.toString = function() { return title; }
@@ -174,7 +178,7 @@ var remoht = {
 
 		var horizonLight = context.horizon()
 			.height(chartHeight).mode("offset")
-			.extent([0, 1])
+			.extent([0, 100])
 			.colors(["#ea9611","#f3ba5f","#f3ba5f","#ea9611"])
 
 		var horizonOccupancy = context.horizon()
@@ -223,13 +227,9 @@ var remoht = {
 			remoht.resources[params.resource] = params.presence
 
 			// update device & resources list
-			$('#resource_list a').each(function(i,item) {
-				item = $(item)
-				if ( item.find('.resource').text() == params.resource ) {
-					remoht.toggle_presence(item, params.presence)
-					return // TODO break from 'each' loop
-				}
-			})
+			remoht.toggle_presence(
+					$('.resource.res-'+params.resource).parent(), 
+					params.presence)
 		},
 
 		// response from get_relays ajax request above
@@ -250,11 +250,12 @@ var remoht = {
 				return
 			}
 
+			params.light_pct = parseInt(params.light_pct*100)
 			$('#temp').text(params.temp_c)
-			$('#light').text(parseInt(params.light_pct*100))
+			$('#light').text(params.light_pct)
 			$('#pir').text(params.pir)
 
-			remoht.reading_data.push(params)
+			remoht.last_reading = params // store only the last value
 		}
 	},
 
