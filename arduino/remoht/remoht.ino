@@ -12,6 +12,8 @@
 #define TTL_V 5.0
 #endif
 
+#define ANALOG_HIGH 1024
+
 #define PIN_HEARTBEAT 13 // digital out
 #define NUM_RELAYS 2
 #define PIN_RELAY_1 2 // ditigal out
@@ -23,11 +25,9 @@
 #define ANALOG_CHANGE_THRESHOLD .05 // requre 5% change to report
 
 // Note: the PIR is 'active' low so an internal pull-up is used on this pin.
-#define PIN_PIR 4  // digital in 
+#define PIN_PIR A2  // use A2 even though it's a digital read, just so pins are consecutive
 #define PIN_LDR 0  // analog in
 #define PIN_TEMP 1 // analog in
-
-#define ANALOG_HIGH 1024
 
 #define ALPHA 0.15 // for low-pass filter
 
@@ -80,7 +80,7 @@ void loop() {
     		                    lastVals.pir };
 		}
 
-		#if HEARTBEAT == 1
+		#ifdef HEARTBEAT
     heartbeat = ( heartbeat == HIGH ? LOW : HIGH );
     digitalWrite(PIN_HEARTBEAT, heartbeat);
 		#endif
@@ -100,8 +100,8 @@ void loop() {
       
     case 'r':
       if ( bytesRead == 5 ) { // toggle relay, format is "r 1 0"
-        int relayID = cmdBuf[2]-'0';
-        int val = cmdBuf[4]-'0';
+        short relayID = cmdBuf[2]-'0';
+        short val = cmdBuf[4]-'0';
         setRelay(relayID, val);
       } 
       // any command that starts w/ r should show current relay states
@@ -116,7 +116,7 @@ void loop() {
 
 void printRelays() {
   Serial.print("r ");
-  for ( int i=0; i< NUM_RELAYS; i++ ) {
+  for ( short i=0; i< NUM_RELAYS; i++ ) {
     Serial.print( relayStates[i] );
     if ( i+1 != NUM_RELAYS )
       Serial.print(" ");
@@ -157,8 +157,7 @@ float readTemp() {
   float newTempC = (vout - 0.5) * 100;
 //  float newTempC = newReading;
   newTempC = lowPass( newTempC, newVals.tempC );
-  if ( newTempC != newVals.tempC )
-		newVals.tempC = newTempC;
+	newVals.tempC = newTempC;
   return newTempC;
 }
 
@@ -168,16 +167,14 @@ float readLDR() {
   
   float ldrNew = float(ldrRaw) / ANALOG_HIGH;
   ldrNew = lowPass(ldrNew, newVals.lightPct);
-  if ( ldrNew != newVals.lightPct )
-		newVals.lightPct = ldrNew;
+	newVals.lightPct = ldrNew;
   return ldrNew;
 }
 
-int readPIR() {
-  int newPir = digitalRead(PIN_PIR);
+short readPIR() {
+  short newPir = digitalRead(PIN_PIR);
   newPir = ( newPir == LOW ? 1 : 0 ); // 0 means motion detected
-	if ( newPir != newVals.pir )
-		newVals.pir = newPir;
+	newVals.pir = newPir;
   // This is already smoothed by capacitors
   return newPir;
 }
@@ -188,11 +185,11 @@ float lowPass(float newReading, float lastReading) {
 }
 
 void resetRelays() {
-  for ( int i=0; i < NUM_RELAYS; i++ )
+  for ( short i=0; i < NUM_RELAYS; i++ )
     setRelay(i, RELAY_DEFAULT);
 }
 
-void setRelay(int index, int val) {
+void setRelay(short index, short val) {
   relayStates[index] = val;
   digitalWrite(relayPins[index], val == 0 ? LOW : HIGH);
 }
