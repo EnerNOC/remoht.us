@@ -156,9 +156,9 @@ var remoht = {
 
 	cubism_source : function(context) {
 		var source = {};
-		source.metric = function(expression, title) {
+		source.metric = function(prop, title) {
 			var metric = context.metric(function(start, stop, step, callback) {
-				var vals = [function(e) { return eval(expression) }(remoht.last_reading)]
+				var vals = [function(e) { return e[prop] }(remoht.last_reading)]
 				// callback expects this many elements, just duplicate the last val:
 				var elements = (stop - start) / step
 				for( var i=1; i<elements; i++ ) vals.push(vals[0])
@@ -179,9 +179,9 @@ var remoht = {
 
 		var chartHeight= 50
 		var source = remoht.cubism_source(context)
-		var temp = source.metric('e.temp_c', 'Temp °C')
-		var light = source.metric('e.light_pct', 'Light')
-		var occupancy = source.metric('e.pir', 'Occupied')
+		var temp = source.metric('temp_c', 'Temp °C')
+		var light = source.metric('light_pct', 'Light')
+		var occupancy = source.metric('pir', 'Occupied')
 
 		var horizonTemp = context.horizon()
 			.height(chartHeight).mode("offset")
