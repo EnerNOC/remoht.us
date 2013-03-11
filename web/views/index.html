@@ -105,6 +105,11 @@
 <script type='text/javascript' src='/static/js/remoht.min.js'></script>
 {% endif %}
 <script type='text/javascript'>
-	$(document).ready(remoht.init);
+	$(document).ready(function() {
+		{% if gae_users.get_current_user() %}
+		remoht.logged_in = true
+		{% endif %}
+		remoht.init()
+	});
 </script>
 {% endblock %}

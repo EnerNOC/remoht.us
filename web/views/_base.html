@@ -28,12 +28,18 @@
 							{% endblock %}
 						<div class="nav-collapse collapse pull-right">
 							<ul class="nav">
+								{% if gae_users.get_current_user() %}
 								<li class="">
 									<a href='#'>{{ gae_users.get_current_user().email() }}</a>
 								</li>
 								<li class="">
 									<a href="/logout">Logout</a>
 								</li>
+								{% else %}
+								<li class="">
+									<a href='{{ gae_users.create_login_url(request_uri) }}'>Login</a>
+								</li>
+								{% endif %}
 							</ul>
 						</div>
 					</div>

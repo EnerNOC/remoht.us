@@ -4,9 +4,11 @@ var remoht = {
 	   .ajaxStart( function(e) { $('.spinner').fadeIn() })
 		 .ajaxStop(  function(e) { $('.spinner').fadeOut() })
 
-		remoht.get_devices()
-		remoht.open_channel()
-		remoht.get_resources()
+		if ( remoht.logged_in ) {
+			remoht.get_devices()
+			remoht.open_channel()
+			remoht.get_resources()
+		}
 
 		$('#resources-refresh').bind('click',function(e) {
 			e.preventDefault()
@@ -14,8 +16,15 @@ var remoht = {
 		})
 
 		remoht.setup_chart()
+		if ( ! remoht.logged_in ) remoht.start_demo()
 	},
 
+	logged_in : false,
+
+	/* Resources are the list of available JID resources to choose from.
+	 * Not all of them will be devices (TODO we should look for a specific
+	 * pattern, e.g. "remoht_device1" or something similar.)
+	 */
 	resources : {},
 
 	get_resources : function() {
@@ -56,6 +65,10 @@ var remoht = {
 		})
 	},
 
+	/* Devices are essentially resources that have been chosen as beloning
+	 * to an actual RPi, so we should expect to see readings & responses
+	 * when it is selected.
+	 */
 	get_devices : function() {
 		$.ajax('/device/', {
 			success: function(data,stat,xhr) {
@@ -287,8 +300,46 @@ var remoht = {
 					onclose : function() {
 						console.debug("Channel closed")
 					}
-				})
+				})	
 			}
 		})
+	},
+
+	start_demo : function() {
+		remoht.current_device_id = "DUMMY"
+		$('#device_header .device_name').text("(this is demo mode!)")
+
+		remoht.add_device_to_list({
+			id : "DUMMY",
+			resource : "dummy_device",
+			presence : "available"
+		})
+
+		remoht.show_relays( "DUMMY", {
+			relay_1 : 0,
+			relay_2 : 1
+		})
+
+		var last_vals = {
+			device_id : "DUMMY",
+			light_pct : 80.0,
+			temp_c : 23.4, 
+			pir : 0
+		}
+
+		rand = function(min, max) {
+			return Math.random() * (max - min) + min;
+		}
+
+		window.setInterval( function() {
+			last_vals.light_pct = Math.max( 0, Math.min( 
+					1, last_vals.light_pct/ 100.0 + rand( -.03, .03 ) ) )
+			last_vals.temp_c = Math.round(Math.max( 5, Math.min( 
+					40, last_vals.temp_c + rand( -2, 2 ) ) ) * 100 ) / 100
+			if ( rand( 0, 10 ) > 9.5 ) // toggle last_vals
+				last_vals.pir = last_vals.pir == 1 ? 0 : 1
+
+			remoht.channel_commands.readings( last_vals )
+		}, 2000 )
 	}
 }

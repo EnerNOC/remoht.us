@@ -91,6 +91,7 @@ class BaseHandler(webapp2.RequestHandler):
         data = memcache.get( cache_key ) if cache_key else None
 
         params['gae_users'] = users
+        params['request_uri'] = self.request.uri
             
         if data is None:
             try:
