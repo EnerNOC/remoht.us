@@ -9,9 +9,11 @@
 		{% if debug %}
 		<link href="/static/css/bootstrap.css" rel="stylesheet" />
 		<link href="/static/css/bootstrap-responsive.css" rel="stylesheet" />
+		<link href="/static/css/font-awesome.css" rel="stylesheet" />
 		<link href='/static/css/main.css' rel='stylesheet' />
 		{% else %}
 		<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css" rel="stylesheet" />
+		<link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/3.0.2/css/font-awesome.min.css" rel="stylesheet" />
 		<link href='/static/css/main.min.css' rel='stylesheet' />
 		{% endif %}
    </head>
@@ -22,10 +24,18 @@
 					<div class="container">
 						<a class="brand" href="/">Remoht.us</a>
 						<ul class='nav'>
+							<li>
+								<a href='#' id='aboutDlgLink' title='About'>
+									<i class='icon-question-sign icon-large'></i></a>
+							</li>
+							<li>
+								<a href='http://github.com/EnerNOC/remoht.us' title='On Github'>
+									<i class='icon-large icon-github-alt'></i></a>
+							</li>
 							<li><span class='spinner' style='display:none;margin-top:6px' /></li>
-							</ul>
-							{% block header %}
-							{% endblock %}
+						</ul>
+						{% block header %}
+						{% endblock %}
 						<div class="nav-collapse collapse pull-right">
 							<ul class="nav">
 								{% if gae_users.get_current_user() %}
@@ -47,10 +57,38 @@
 			</div>
 
     	<div class="container container-main">
-					{% block main %}
-					{% endblock %}
+				{% block main %}
+				{% endblock %}
 			</div>
 
+			<div id='aboutDialog' class="modal hide fade">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h3>About Remoht.us</h3>
+				</div>
+				<div class="modal-body">
+					<p>This is an open source technology demo that was built for a 
+						<a href='http://www.meetup.com/gdg-boston/'>Boston Google Developers</a> meetup at 
+						<a href='http://enernoc.com'>EnerNOC</a> in January 2013. The original code was written
+						by <a href='http://blog.thomnichols.org'>Thom Nichols</a>.
+					</p>
+					<p>Remoht.us runs on <a href='https://developers.google.com/appengine/' 
+						target='_new'>Google Appengine</a> and incorporates push-based communication to monitor 
+						environmental sensors.  The web app uses <a href='http://xmpp.org' target='_new'>XMPP</a> to 
+						perform bidirectional communication between the cloud and a <a href='http://www.raspberrypi.org/' 
+							target='_new'>Raspberry Pi</a>.  The browser interface receives push updates using AppEngine's
+						<a href='https://developers.google.com/appengine/docs/python/channel/' 
+						target='_new'>Channel API</a>.
+					</p>
+					<p>You can read more about the project on the <a href='http://open.enernoc.com/blog/2013/02/27/technology-demo-real-time-control-and-telemetry/' target='_new'>EnerNOC Open blog</a>.  Download the 
+					source <a href='http://github.com/EnerNOC/remoht.us' target='_new'>on Github</a>!</p>
+				</div>
+				<!--
+				<div class="modal-footer">
+				</div>
+				-->
+			</div>
+			
 		{% if debug %}
 		{% if _ is mobile %}
 		<script type="text/javascript" src='/static/js/lib/zepto.js'></script>
@@ -75,5 +113,12 @@
 		{% endif %}
 		{% block more_script %}
 		{% endblock %}
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$('#aboutDlgLink').on('click', function(e) {
+					$('#aboutDialog').modal()
+				})
+			})
+		</script> 
 	</body>
 </html>

@@ -15,6 +15,10 @@
   font-size:18px;
 }
 
+.navbar ul.nav i {
+	color: #ddd
+}
+
 #readings .rlabel {
 	display:inline-block;
 	width:12%;
